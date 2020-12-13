@@ -1,0 +1,14 @@
+{
+	"name" : "bitdecaybtree",
+	"url" : "https://github.com/bitDecayGames/flixel-utils",
+	"license" : "MIT",
+	"tags": ["btree"],
+
+    "description" : "Simple behavior tree library",
+    "version" : "0.1.0-alpha",
+	"releasenote" : "Initial attempt",
+	"contributors" : ["MondayHopscotch"],
+	"dependencies" : {
+		"flixel": "4.8.1"
+	}
+}
