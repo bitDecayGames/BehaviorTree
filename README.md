@@ -2,8 +2,6 @@
 
 A simple behavior tree implementation. This is intended to be a haxe flixel extension and has a haxeflixel dependency for various nodes.
 
-## Use
-
 ### **Quick Overview**
 
 ### Nodes
