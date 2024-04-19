@@ -1,6 +1,6 @@
 # BTree
 
-A simple behavior tree implementation. This is intended to be a haxe flixel extension and has a haxeflixel dependency for various nodes.
+A simple behavior tree implementation. 
 
 ### **Quick Overview**
 

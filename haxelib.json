@@ -1,6 +1,6 @@
 {
 	"name" : "bitdecaybtree",
-	"url" : "https://github.com/bitDecayGames/flixel-utils",
+	"url" : "https://github.com/bitDecayGames/behaviortree",
 	"license" : "MIT",
 	"tags": ["btree"],
 
