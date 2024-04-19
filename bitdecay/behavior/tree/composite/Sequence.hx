@@ -33,6 +33,6 @@ class Sequence extends CompositeNode {
         }
 
         // We have traversed all of our nodes with no failures, so we have succeeded
-        return SUCCESS
+        return SUCCESS;
     }
 }

@@ -26,6 +26,6 @@ class Selector extends CompositeNode {
         }
 
         // We ran out of nodes to check for successes, so we have failed
-        return FAIL
+        return FAIL;
     }
 }
