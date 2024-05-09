@@ -8,7 +8,4 @@
     "version" : "0.1.0-alpha",
 	"releasenote" : "Initial attempt",
 	"contributors" : ["MondayHopscotch"],
-	"dependencies" : {
-		"flixel": "5.8.0"
-	}
 }
