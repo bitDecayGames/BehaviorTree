@@ -6,7 +6,7 @@ import bitdecay.behavior.tree.NodeStatus;
 class StatusAction extends LeafNode {
 	var cb:(Float)->NodeStatus;
 
-    public function new(cb:()->Void) {
+    public function new(cb:(Float)->NodeStatus) {
 		this.cb = cb;
 	}
 
