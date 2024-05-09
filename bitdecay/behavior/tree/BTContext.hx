@@ -3,6 +3,8 @@ package bitdecay.behavior.tree;
 class BTContext {
     private var contents:Map<String, Dynamic>;
 
+    public var dirty:Bool = false;
+
     public function new() {
         contents = new Map<String, Dynamic>();
     }
@@ -16,6 +18,13 @@ class BTContext {
     }
 
     public function set(key:String, value:Dynamic) {
+        #if btree
+        if (!StringTools.startsWith(key, "debug") && (!contents.exists(key) || contents.get(key) != value)) {
+            dirty = true;
+            trace('key ${key}: ${contents.get(key)} -> ${value}');
+        }
+        #end
+
         contents.set(key, value);
     }
 

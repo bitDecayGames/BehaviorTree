@@ -38,6 +38,7 @@ class Wait extends LeafNode {
         remaining -= delta;
 
         if (remaining <= 0) {
+            trace("wait complete");
             return SUCCESS;
         }
 

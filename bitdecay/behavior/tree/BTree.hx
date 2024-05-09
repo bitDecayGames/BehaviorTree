@@ -47,7 +47,10 @@ class BTree implements Node {
             last = current;
         }
 
-        trace(context.dump());
+        if (context.dirty) {
+            context.dirty = false;
+            trace(context.dump());
+        }
         #end
 
         return result;

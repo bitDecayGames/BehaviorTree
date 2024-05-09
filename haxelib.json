@@ -9,6 +9,6 @@
 	"releasenote" : "Initial attempt",
 	"contributors" : ["MondayHopscotch"],
 	"dependencies" : {
-		"flixel": "5.4.0"
+		"flixel": "5.8.0"
 	}
 }

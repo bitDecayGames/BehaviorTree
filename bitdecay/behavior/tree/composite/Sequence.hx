@@ -5,21 +5,26 @@ package bitdecay.behavior.tree.composite;
 class Sequence extends CompositeNode {
     var index:Int;
     var lastIndex:Int;
-    var lastStatus:NodeStatus;
+    var needsInit:Bool;
 
     public function new(children:Array<Node>) {
         super(children);
     }
 
     override public function init(context:BTContext) {
-        super.init(context);
+        this.context = context;
         index = 0;
         lastIndex = -1;
+        needsInit = true;
     }
 
     override public function doProcess(delta:Float):NodeStatus {
         var result = NodeStatus.FAIL;
         while (index < children.length) {
+            if (needsInit) {
+                needsInit = false;
+                children[index].init(context);
+            }
             result = children[index].process(delta);
 
             if (result == RUNNING) {
@@ -28,6 +33,7 @@ class Sequence extends CompositeNode {
                 return result;
             } else {
                 index++;
+                needsInit = true;
                 continue;
             }
         }
