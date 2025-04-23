@@ -37,4 +37,8 @@ class CompositeNode implements Node {
     }
 
     public function exit():Void {}
+
+    function getChildren():Array<Node> {
+        return children;
+    }
 }

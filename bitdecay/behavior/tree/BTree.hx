@@ -60,4 +60,8 @@ class BTree implements Node {
     }
 
     public function exit():Void {}
+
+    function getChildren():Array<Node> {
+        return [root];
+    }
 }

@@ -37,4 +37,8 @@ class DecoratorNode implements Node {
     }
 
     public function exit():Void {}
+
+    function getChildren():Array<Node> {
+        return [child];
+    }
 }

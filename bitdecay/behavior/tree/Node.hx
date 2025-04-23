@@ -19,4 +19,9 @@ interface Node {
      * to be cancelled in certain situations
     **/
     public function exit():Void;
+
+    /**
+     * Used internally to navigate a tree for tooling purposes
+    **/
+    private function getChildren():Array<Node>;
 }
