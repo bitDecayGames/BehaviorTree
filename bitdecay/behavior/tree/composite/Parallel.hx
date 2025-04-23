@@ -1,9 +1,9 @@
 package bitdecay.behavior.tree.composite;
 
-// Runs all child nodes in parallel.
-// Returns RUNNING while any nodes still return RUNNING status, otherwise:
-//     Returns SUCCESS if all nodes return success
-//     Returns FAIL if any node returns FAIL
+/**
+ * Runs all child nodes in parallel until the provided Condition
+ * is met and returns the appropriate result
+**/
 class Parallel extends CompositeNode {
     var condition:Condition;
     var statuses:Array<NodeStatus>;

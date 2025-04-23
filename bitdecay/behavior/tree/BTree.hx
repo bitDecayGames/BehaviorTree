@@ -1,6 +1,9 @@
 package bitdecay.behavior.tree;
 
 
+/**
+ * Top node of a Behavior Tree that owns the tree and its context
+**/
 class BTree implements Node {
     private var root:Node;
     private var context:BTContext;

@@ -1,6 +1,8 @@
 package bitdecay.behavior.tree.composite;
 
-// A node that has children
+/**
+ * A node that has children nodes
+**/
 class CompositeNode implements Node {
     var children:Array<Node>;
     var context:BTContext;

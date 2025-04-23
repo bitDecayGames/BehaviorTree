@@ -1,9 +1,12 @@
 package bitdecay.behavior.tree.composite;
 
-/* Traverses the children nodes, returning SUCCESS upon
+/**
+ * Traverses the children nodes, returning SUCCESS upon
  * first child returning SUCCESS.
  * Returns FAIL if all nodes fail
- */
+ *
+ * Logically, this is similar to the OR operation
+ **/
 class Selector extends CompositeNode {
     var index:Int = 0;
     var type:SelectorType;

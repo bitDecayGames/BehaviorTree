@@ -4,8 +4,10 @@ import bitdecay.behavior.tree.BTContext;
 import bitdecay.behavior.tree.NodeStatus;
 import bitdecay.behavior.tree.leaf.LeafNode;
 
-// Waits a random amount of time between min/max. If no times provided to constructor, the context is
-// used to determine wait times
+/**
+ * Waits a random amount of time between min/max. If no times provided to constructor, the context is
+ * used to determine wait times
+ **/ 
 class Wait extends LeafNode {
     public static inline var MIN_TIME = "waitMin";
     public static inline var MAX_TIME = "waitMax";

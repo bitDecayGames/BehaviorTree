@@ -3,6 +3,9 @@ package bitdecay.behavior.tree.leaf.util;
 import bitdecay.behavior.tree.leaf.LeafNode;
 import bitdecay.behavior.tree.NodeStatus;
 
+/**
+ * Utility node that always succeeds
+**/
 class Success extends LeafNode {
     public function new() {}
 

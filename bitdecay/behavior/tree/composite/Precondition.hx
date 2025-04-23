@@ -1,8 +1,10 @@
 package bitdecay.behavior.tree.composite;
 
-// Runs the condition node until SUCCESS before starting the child node.
-// Condition node is continuously re-run while child node operates.
-// If condition node fails, FAIL is immediately returned
+/**
+ * Runs the condition node until SUCCESS before starting the child node.
+ * Condition node is continuously re-run while child node operates.
+ * If condition node fails, FAIL is immediately returned
+**/
 class Precondition extends CompositeNode {
 	var running:Bool;
 	var conditionStatus:NodeStatus;

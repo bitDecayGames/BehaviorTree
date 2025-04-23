@@ -1,5 +1,8 @@
 package bitdecay.behavior.tree.decorator;
 
+/**
+ * Wraps a child code allowing for logic before/after the child node process is called
+**/
 class DecoratorNode implements Node {
     var child:Node;
     var context:BTContext;

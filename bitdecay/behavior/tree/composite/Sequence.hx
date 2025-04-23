@@ -1,7 +1,11 @@
 package bitdecay.behavior.tree.composite;
 
-// Traverses children sequentially, returning SUCCESS only if all
-// children succeed. Returns FAIL upon first child node failing
+/**
+ * Traverses children sequentially, returning SUCCESS only if all
+ * children succeed. Returns FAIL upon first child node failing
+ *
+ * Logically, this is similar to the AND operation
+ **/
 class Sequence extends CompositeNode {
     var index:Int;
     var lastIndex:Int;

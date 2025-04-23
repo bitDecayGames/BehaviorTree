@@ -1,5 +1,8 @@
 package bitdecay.behavior.tree.leaf;
 
+/**
+ * Node intended to be extended to capture the business logic of a given application
+**/
 class LeafNode implements Node {
     var context:BTContext;
 
