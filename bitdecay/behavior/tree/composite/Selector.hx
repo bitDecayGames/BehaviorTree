@@ -31,10 +31,10 @@ class Selector extends CompositeNode {
     }
 
     override function init(context:BTContext) {
-        this.context = context;
+        super.init(context);
         index = 0;
         needsInit = true;
-        previousChildStatus = null;
+        previousChildStatus = UNKNOWN;
         order = [for (i in 0...children.length) i];
 
         switch type {
@@ -79,6 +79,10 @@ class Selector extends CompositeNode {
             if (needsInit) {
                 needsInit = false;
                 children[order[index]].init(context);
+                #if debug
+                @:privateAccess
+                context.owner.nodeStatusChange.dispatch(this, children[index], UNKNOWN);
+                #end
             }
             result = children[order[index]].process(delta);
 
@@ -98,6 +102,7 @@ class Selector extends CompositeNode {
             } else {
                 needsInit = true;
                 index++;
+                previousChildStatus = UNKNOWN;
                 continue;
             }
         }

@@ -24,7 +24,7 @@ class Precondition extends CompositeNode {
 		previousConditionStatus = null;
 
 		childStatus = RUNNING;
-		previousChildStatus = null;
+		previousChildStatus = UNKNOWN;
 	}
 
 	override function doProcess(delta:Float):NodeStatus {

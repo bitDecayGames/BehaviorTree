@@ -17,7 +17,12 @@ class DecoratorNode implements Node {
         if (child.init != null) {
             child.init(context);
         }
-        previousChildStatus = null;
+        previousChildStatus = UNKNOWN;
+
+        #if debug
+		@:privateAccess
+		context.owner.nodeStatusChange.dispatch(this, child, UNKNOWN);
+		#end
     }
 
     public function process(delta:Float):NodeStatus {
@@ -34,6 +39,11 @@ class DecoratorNode implements Node {
 
             @:privateAccess
             context.owner.nodeStatusChange.dispatch(this, child, rawStatus);
+        }
+
+        if (result == SUCCESS || result == FAIL) {
+            // we finished, so prep ourselves for future iterations
+            previousChildStatus = UNKNOWN;
         }
         #end
 

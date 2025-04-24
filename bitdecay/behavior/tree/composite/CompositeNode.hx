@@ -15,6 +15,10 @@ class CompositeNode implements Node {
         this.context = context;
         for (c in children) {
             c.init(context);
+            #if debug
+            @:privateAccess
+            context.owner.nodeStatusChange.dispatch(this, c, UNKNOWN);
+            #end
         }
     }
 

@@ -17,11 +17,10 @@ class Sequence extends CompositeNode {
     }
 
     override public function init(context:BTContext) {
-        this.context = context;
+        super.init(context);
         index = 0;
         lastIndex = -1;
-        needsInit = true;
-        previousChildStatus = null;
+        needsInit = false;
     }
 
     override public function doProcess(delta:Float):NodeStatus {
@@ -30,6 +29,10 @@ class Sequence extends CompositeNode {
             if (needsInit) {
                 needsInit = false;
                 children[index].init(context);
+                #if debug
+                @:privateAccess
+                context.owner.nodeStatusChange.dispatch(this, children[index], UNKNOWN);
+                #end
             }
             result = children[index].process(delta);
 
@@ -49,6 +52,7 @@ class Sequence extends CompositeNode {
             } else {
                 index++;
                 needsInit = true;
+                previousChildStatus = UNKNOWN;
                 continue;
             }
         }

@@ -11,8 +11,8 @@ import bitdecay.behavior.tree.NodeStatus;
 class Invert extends DecoratorNode {
     override public function doProcess(raw:NodeStatus):NodeStatus {
 		switch (raw) {
-			case RUNNING:
-				return RUNNING;
+			case RUNNING, UNKNOWN:
+				return raw;
 			case FAIL:
 				return SUCCESS;
 			case SUCCESS:
