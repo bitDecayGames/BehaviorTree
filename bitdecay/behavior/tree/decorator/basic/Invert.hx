@@ -9,8 +9,8 @@ import bitdecay.behavior.tree.NodeStatus;
  *             Returns SUCCESS if the child node returns FAIL
 **/
 class Invert extends DecoratorNode {
-    override public function doProcess(delta:Float):NodeStatus {
-		switch (child.process(delta)) {
+    override public function doProcess(raw:NodeStatus):NodeStatus {
+		switch (raw) {
 			case RUNNING:
 				return RUNNING;
 			case FAIL:

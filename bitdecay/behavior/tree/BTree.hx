@@ -9,6 +9,9 @@ import flixel.util.FlxSignal.FlxTypedSignal;
 class BTree implements Node {
     private var root:Node;
     private var context:BTContext;
+
+    var previousChildStatus:NodeStatus = null;
+
     public var nodeStatusChange = new FlxTypedSignal<(Node, Node, NodeStatus) ->Void>();
 
     public function new(root:Node) {
@@ -25,8 +28,10 @@ class BTree implements Node {
         }
 
         context.owner = this;
-
         this.context = context;
+
+        previousChildStatus = null;
+
         root.init(context);
     }
 
@@ -41,6 +46,15 @@ class BTree implements Node {
         #end
 
         var result = root.process(delta);
+
+        #if debug
+        if (previousChildStatus != result) {
+            previousChildStatus = result;
+
+            @:privateAccess
+            context.owner.nodeStatusChange.dispatch(null, root, result);
+        }
+        #end
 
         #if btree
         var path:Array<String> = context.get("debug_path");

@@ -8,8 +8,8 @@ import bitdecay.behavior.tree.NodeStatus;
  * completion status
 **/
 class AlwaysSucceed extends DecoratorNode {
-    override public function doProcess(delta:Float):NodeStatus {
-        if (child.process(delta) == RUNNING) {
+    override public function doProcess(raw:NodeStatus):NodeStatus {
+        if (raw == RUNNING) {
             return RUNNING;
         }
         return SUCCESS;

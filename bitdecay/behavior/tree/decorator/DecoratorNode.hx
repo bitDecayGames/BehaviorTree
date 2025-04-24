@@ -25,14 +25,15 @@ class DecoratorNode implements Node {
         cast(context.get("debug_path"), Array<Dynamic>).push(Type.getClassName(Type.getClass(this)));
         #end
 
-        var result = doProcess(delta);
+        var rawStatus = child.process(delta);
+        var result = doProcess(rawStatus);
 
         #if debug
-        if (previousChildStatus != result) {
-            previousChildStatus = result;
+        if (previousChildStatus != rawStatus) {
+            previousChildStatus = rawStatus;
 
             @:privateAccess
-            context.owner.nodeStatusChange.dispatch(this, child, result);
+            context.owner.nodeStatusChange.dispatch(this, child, rawStatus);
         }
         #end
 
@@ -43,8 +44,8 @@ class DecoratorNode implements Node {
         return result;
     }
 
-    public function doProcess(delta:Float):NodeStatus {
-        return FAIL;
+    public function doProcess(raw:NodeStatus):NodeStatus {
+        return raw;
     }
 
     public function exit():Void {}

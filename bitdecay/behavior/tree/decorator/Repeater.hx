@@ -6,9 +6,7 @@ package bitdecay.behavior.tree.decorator;
 class Repeater extends DecoratorNode {
     var type:RepeatType;
     var count:Int;
-    var remaining:Int;
-
-    var newLoopNeeded = false;
+    var lastStatus:NodeStatus = null;
 
     public function new(type:RepeatType, child:Node) {
         super(child);
@@ -17,58 +15,70 @@ class Repeater extends DecoratorNode {
 
     override function init(context:BTContext) {
         super.init(context);
-
-        switch(type) {
-            case COUNT(n):
-                count = n;
-            default:
-                count == -1;
-        }
+        lastStatus = null;
+        count = 0;
     }
 
-    override public function doProcess(delta:Float):NodeStatus {
-        if (newLoopNeeded) {
-            newLoopNeeded = false;
-			// TODO: Do we need/want to init the child every loop?
-            trace('repeater init children');
-			child.init(context);
+    override public function doProcess(raw:NodeStatus):NodeStatus {
+        if (lastStatus != RUNNING) {
+            count++;
         }
         
-        var status = child.process(delta);
-        if (status != RUNNING) {
-            newLoopNeeded = true;
-            
-            remaining = Std.int(Math.max(-1, remaining-1));
-
-            switch(type) {
+        lastStatus = raw;
+        if (raw != RUNNING) {
+            raw = switch(type) {
                 case FOREVER:
-                    return RUNNING;
+                    RUNNING;
                 case COUNT(n):
-                    if (remaining == 0) {
-                        return status;
+                    if (n > 0 && count == n) {
+                        raw;
                     } else {
-                        // More iterations to do
-                        return RUNNING;
+                        child.init(context);
+                        RUNNING;
                     }
-                case UNTIL_FAIL:
-                    if (status == FAIL) {
-                        return status;
+                case UNTIL_FAIL(max):
+                    if (raw == FAIL) {
+                        SUCCESS;
+                    } else if (count == max) {
+                        FAIL;
+                    } else {
+                        child.init(context);
+                        RUNNING;
                     }
-                case UNTIL_SUCCESS:
-                    if (status == SUCCESS) {
-                        return status;
+                case UNTIL_SUCCESS(max):
+                    if (raw == SUCCESS) {
+                        raw;
+                    } else if (count == max) {
+                        FAIL;
+                    } else {
+                        child.init(context);
+                        RUNNING;
                     }
-                default:
             }
         }
 
-        return RUNNING;
+        return raw;
     }
 }
 
 enum RepeatType {
+    /**
+     * Run n number of times, returning the final NodeStatus
+    **/
     COUNT(n:Int);
-    UNTIL_FAIL;
-    UNTIL_SUCCESS;
+
+    /**
+     * Run until child returns FAIL status, at most `max` times. Zero implies no limit.
+    **/
+    UNTIL_FAIL(max:Int);
+
+    /**
+     * Run until child returns SUCCESS status, at most `max` times. Zero implies no limit.
+    **/
+    UNTIL_SUCCESS(max:Int);
+
+    /**
+     * Run repeatedly forever, regardless of child return status
+    **/
     FOREVER;
 }

@@ -67,7 +67,7 @@ class Parallel extends CompositeNode {
 
         switch condition {
             case UNTIL_ALL_COMPLETE, UNTIL_FIRST_FAIL:
-                trace('all tasks finished');
+                //trace('all tasks finished');
                 return SUCCESS;
             default:
                 // other conditions were checked earlier
@@ -78,11 +78,16 @@ class Parallel extends CompositeNode {
     }
 
     private function exitIncomplete():Void {
-    for (i in 0...statuses.length) {
-        if (statuses[i] != RUNNING) {
-            children[i].exit();
+        for (i in 0...statuses.length) {
+            if (statuses[i] == RUNNING) {
+                children[i].exit();
+
+                #if debug
+                @:privateAccess
+                context.owner.nodeStatusChange.dispatch(this, children[i], FAIL);
+                #end
+            }
         }
-    }
     }
 }
 
