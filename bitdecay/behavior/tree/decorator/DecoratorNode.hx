@@ -53,4 +53,8 @@ class DecoratorNode implements Node {
     function getChildren():Array<Node> {
         return [child];
     }
+
+    function getDetail():Array<String> {
+        return [];
+    }
 }

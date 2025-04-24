@@ -83,4 +83,8 @@ class BTree implements Node {
     function getChildren():Array<Node> {
         return [root];
     }
+
+    function getDetail():Array<String> {
+        return [];
+    }
 }

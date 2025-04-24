@@ -24,4 +24,9 @@ interface Node {
      * Used internally to navigate a tree for tooling purposes
     **/
     private function getChildren():Array<Node>;
+
+    /**
+     * Used internally to show debug information
+    **/
+    private function getDetail():Array<String>;
 }

@@ -105,6 +105,10 @@ class Selector extends CompositeNode {
         // We ran out of nodes to check for successes, so we have failed
         return FAIL;
     }
+
+    override function getDetail():Array<String> {
+        return ['type: ${type}', 'order: ${order}'];
+    }
 }
 
 enum SelectorType {

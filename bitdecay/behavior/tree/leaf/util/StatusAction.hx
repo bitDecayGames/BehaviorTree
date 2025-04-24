@@ -16,4 +16,8 @@ class StatusAction extends LeafNode {
     override public function doProcess(delta:Float):NodeStatus {
 		return cb(delta);
     }
+
+	override function getDetail():Array<String> {
+        return [Std.string(cb)];
+    }
 }

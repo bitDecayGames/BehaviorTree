@@ -17,4 +17,8 @@ class Action extends LeafNode {
 		cb();
         return SUCCESS;
     }
+
+	override function getDetail():Array<String> {
+        return [Std.string(cb)];
+    }
 }

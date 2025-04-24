@@ -39,6 +39,10 @@ class Interrupter extends DecoratorNode {
 
         return RUNNING;
     }
+
+    override function getDetail():Array<String> {
+        return ['type: ${type}'];
+    }
 }
 
 enum InterruptType {

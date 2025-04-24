@@ -1,5 +1,6 @@
 package bitdecay.behavior.tree.leaf.util;
 
+import flixel.math.FlxMath;
 import bitdecay.behavior.tree.BTContext;
 import bitdecay.behavior.tree.NodeStatus;
 import bitdecay.behavior.tree.leaf.LeafNode;
@@ -13,6 +14,7 @@ class Wait extends LeafNode {
     public static inline var MAX_TIME = "waitMax";
     
     var started:Bool;
+    var initial:Float;
     var remaining:Float;
     var minTime:Float;
     var maxTime:Float;
@@ -33,17 +35,22 @@ class Wait extends LeafNode {
         if (max < 0 && context.has(MAX_TIME)) {
             max = cast(context.get(MAX_TIME), Float);
         }
-        remaining = min + Math.random() * (max - min);
+        initial = min + Math.random() * (max - min);
+        remaining = initial;
     }
 
     override public function doProcess(delta:Float):NodeStatus {
         remaining -= delta;
 
         if (remaining <= 0) {
-            trace("wait complete");
+            remaining = 0;
             return SUCCESS;
         }
 
         return RUNNING;
+    }
+
+    override function getDetail():Array<String> {
+        return ['min: ${minTime}, max: ${maxTime}', 'initial: ${FlxMath.roundDecimal(initial, 3)}, remaining: ${FlxMath.roundDecimal(remaining, 3)}'];
     }
 }

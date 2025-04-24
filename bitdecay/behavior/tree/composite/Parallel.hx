@@ -89,6 +89,10 @@ class Parallel extends CompositeNode {
             }
         }
     }
+
+    override function getDetail():Array<String> {
+        return ['condition: ${condition}'];
+    }
 }
 
 enum Condition {

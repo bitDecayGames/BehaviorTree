@@ -19,4 +19,8 @@ class SetVariable extends LeafNode {
 		context.set(name, value);
         return SUCCESS;
     }
+
+	override function getDetail():Array<String> {
+        return ['var: ${name}, value: ${value}'];
+    }
 }

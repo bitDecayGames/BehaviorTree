@@ -41,4 +41,8 @@ class CompositeNode implements Node {
     function getChildren():Array<Node> {
         return children;
     }
+
+    function getDetail():Array<String> {
+        return [];
+    }
 }

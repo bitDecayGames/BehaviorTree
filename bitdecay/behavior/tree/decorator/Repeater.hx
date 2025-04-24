@@ -59,6 +59,10 @@ class Repeater extends DecoratorNode {
 
         return raw;
     }
+
+    override function getDetail():Array<String> {
+        return ['type: ${type}', 'current: ${count}'];
+    }
 }
 
 enum RepeatType {

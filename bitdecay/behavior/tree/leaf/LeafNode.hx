@@ -33,4 +33,8 @@ class LeafNode implements Node {
     function getChildren():Array<Node> {
         return [];
     }
+
+    function getDetail():Array<String> {
+        return [];
+    }
 }
