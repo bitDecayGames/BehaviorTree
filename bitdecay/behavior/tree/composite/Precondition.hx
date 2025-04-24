@@ -8,6 +8,10 @@ package bitdecay.behavior.tree.composite;
 class Precondition extends CompositeNode {
 	var running:Bool;
 	var conditionStatus:NodeStatus;
+	var previousConditionStatus:NodeStatus;
+
+	var childStatus:NodeStatus;
+	var previousChildStatus:NodeStatus;
 
 	public function new(condition:Node, child:Node) {
 		super([condition, child]);
@@ -17,12 +21,25 @@ class Precondition extends CompositeNode {
 		super.init(context);
 		running = false;
 		conditionStatus = RUNNING;
+		previousConditionStatus = null;
+
+		childStatus = RUNNING;
+		previousChildStatus = null;
 	}
 
 	override function doProcess(delta:Float):NodeStatus {
 		if (conditionStatus == RUNNING) {
 			conditionStatus = children[0].process(delta);
 		}
+
+        #if debug
+		if (conditionStatus != previousConditionStatus) {
+			previousConditionStatus = conditionStatus;
+			@:privateAccess
+			context.owner.nodeStatusChange.dispatch(this, children[0], conditionStatus);
+		}
+		#end
+		
 
 		if (conditionStatus == FAIL) {
 			children[1].exit();
@@ -37,6 +54,17 @@ class Precondition extends CompositeNode {
 			return conditionStatus;
 		}
 
-		return children[1].process(delta);
+		childStatus = children[1].process(delta);
+
+        #if debug
+		if (previousChildStatus != childStatus) {
+			previousChildStatus = childStatus;
+
+			@:privateAccess
+			context.owner.nodeStatusChange.dispatch(this, children[1], childStatus);
+		}
+		#end
+
+		return childStatus;
 	}
 }

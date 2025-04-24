@@ -1,6 +1,7 @@
 package bitdecay.behavior.tree;
 
 class BTContext {
+    public var owner:BTree;
     private var contents:Map<String, Dynamic>;
 
     public var dirty:Bool = false;

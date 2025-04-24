@@ -12,6 +12,8 @@ class Selector extends CompositeNode {
     var type:SelectorType;
     var needsInit:Bool;
 
+    var previousChildStatus:NodeStatus;
+
     var order:Array<Int>;
 
     public function new(type:SelectorType, children:Array<Node>) {
@@ -32,6 +34,7 @@ class Selector extends CompositeNode {
         this.context = context;
         index = 0;
         needsInit = true;
+        previousChildStatus = null;
         order = [for (i in 0...children.length) i];
 
         switch type {
@@ -78,6 +81,15 @@ class Selector extends CompositeNode {
                 children[order[index]].init(context);
             }
             result = children[order[index]].process(delta);
+
+            #if debug
+            if (previousChildStatus != result) {
+                previousChildStatus = result;
+    
+                @:privateAccess
+                context.owner.nodeStatusChange.dispatch(this, children[index], result);
+            }
+            #end
 
             if (result == RUNNING) {
                 return result;

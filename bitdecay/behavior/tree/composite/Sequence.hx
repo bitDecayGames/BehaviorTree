@@ -7,9 +7,10 @@ package bitdecay.behavior.tree.composite;
  * Logically, this is similar to the AND operation
  **/
 class Sequence extends CompositeNode {
-    var index:Int;
-    var lastIndex:Int;
-    var needsInit:Bool;
+    var index:Int = 0;
+    var lastIndex:Int = -1;
+    var needsInit:Bool = true;
+    var previousChildStatus:NodeStatus;
 
     public function new(children:Array<Node>) {
         super(children);
@@ -20,6 +21,7 @@ class Sequence extends CompositeNode {
         index = 0;
         lastIndex = -1;
         needsInit = true;
+        previousChildStatus = null;
     }
 
     override public function doProcess(delta:Float):NodeStatus {
@@ -30,6 +32,15 @@ class Sequence extends CompositeNode {
                 children[index].init(context);
             }
             result = children[index].process(delta);
+
+            #if debug
+            if (previousChildStatus != result) {
+                previousChildStatus = result;
+    
+                @:privateAccess
+                context.owner.nodeStatusChange.dispatch(this, children[index], result);
+            }
+            #end
 
             if (result == RUNNING) {
                 return result;

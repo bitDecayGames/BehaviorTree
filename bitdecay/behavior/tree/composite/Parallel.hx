@@ -7,6 +7,7 @@ package bitdecay.behavior.tree.composite;
 class Parallel extends CompositeNode {
     var condition:Condition;
     var statuses:Array<NodeStatus>;
+    var previousStatuses:Array<NodeStatus>;
 
     public function new(condition:Condition, children:Array<Node>) {
         super(children);
@@ -18,28 +19,36 @@ class Parallel extends CompositeNode {
         statuses = [for (i in 0...children.length) {
             RUNNING;
         }];
+        previousStatuses = [for (i in 0...children.length) {
+            null;
+        }];
     }
 
     override public function doProcess(delta:Float):NodeStatus {
         for (i in 0...children.length) {
             if (statuses[i] == RUNNING) {
                 statuses[i] = children[i].process(delta);
-                if (statuses[i] != RUNNING) {
-                    trace('status ${i}: ${statuses[i]}');
-                }
             }
+
+            #if debug
+            if (previousStatuses[i] != statuses[i]) {
+                previousStatuses[i] = statuses[i];
+                @:privateAccess
+                context.owner.nodeStatusChange.dispatch(this, children[i], statuses[i]);
+            }
+            #end
         }
 
         switch condition {
             case UNTIL_FIRST_FAIL:
                 if (statuses.contains(FAIL)) {
-                    trace('ON_FIRST_FAIL triggered');
+                    // trace('ON_FIRST_FAIL triggered');
                     exitIncomplete();
                     return FAIL;
                 }
             case UNTIL_FIRST_SUCCESS:
                 if (statuses.contains(SUCCESS)) {
-                    trace('ON_FIRST_SUCCESS triggered');
+                    // trace('ON_FIRST_SUCCESS triggered');
                     exitIncomplete();
                     return SUCCESS;
                 }
@@ -57,8 +66,7 @@ class Parallel extends CompositeNode {
 		}
 
         switch condition {
-            case UNTIL_ALL_COMPLETE:
-            case UNTIL_FIRST_FAIL:
+            case UNTIL_ALL_COMPLETE, UNTIL_FIRST_FAIL:
                 trace('all tasks finished');
                 return SUCCESS;
             default:

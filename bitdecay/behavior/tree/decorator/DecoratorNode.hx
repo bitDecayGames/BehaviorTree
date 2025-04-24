@@ -6,6 +6,7 @@ package bitdecay.behavior.tree.decorator;
 class DecoratorNode implements Node {
     var child:Node;
     var context:BTContext;
+    var previousChildStatus:NodeStatus;
 
     public function new(child:Node) {
         this.child = child;
@@ -16,6 +17,7 @@ class DecoratorNode implements Node {
         if (child.init != null) {
             child.init(context);
         }
+        previousChildStatus = null;
     }
 
     public function process(delta:Float):NodeStatus {
@@ -24,6 +26,15 @@ class DecoratorNode implements Node {
         #end
 
         var result = doProcess(delta);
+
+        #if debug
+        if (previousChildStatus != result) {
+            previousChildStatus = result;
+
+            @:privateAccess
+            context.owner.nodeStatusChange.dispatch(this, child, result);
+        }
+        #end
 
         #if btree
         context.set("debug_result", result);

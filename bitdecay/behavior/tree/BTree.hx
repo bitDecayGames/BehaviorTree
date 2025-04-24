@@ -1,5 +1,7 @@
 package bitdecay.behavior.tree;
 
+import flixel.util.FlxSignal.FlxTypedSignal;
+
 
 /**
  * Top node of a Behavior Tree that owns the tree and its context
@@ -7,6 +9,7 @@ package bitdecay.behavior.tree;
 class BTree implements Node {
     private var root:Node;
     private var context:BTContext;
+    public var nodeStatusChange = new FlxTypedSignal<(Node, Node, NodeStatus) ->Void>();
 
     public function new(root:Node) {
         if (root == null) {
@@ -20,6 +23,8 @@ class BTree implements Node {
         if (context == null) {
 			context = new BTContext();
         }
+
+        context.owner = this;
 
         this.context = context;
         root.init(context);
