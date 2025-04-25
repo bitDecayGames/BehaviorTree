@@ -1,11 +1,11 @@
 package bitdecay.behavior.tree.leaf.util;
 
-import bitdecay.behavior.tree.BTContext;
+import bitdecay.behavior.tree.context.BTContext;
 import bitdecay.behavior.tree.NodeStatus;
 import bitdecay.behavior.tree.leaf.LeafNode;
 
 /**
- * Waits a random amount of time between min/max.
+ * Waits before returning a SUCCESS status
  **/ 
 class Wait extends LeafNode {
     

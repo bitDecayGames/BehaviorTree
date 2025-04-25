@@ -1,4 +1,4 @@
-package bitdecay.behavior.tree;
+package bitdecay.behavior.tree.context;
 
 class BTContext {
     public var executor:BTExecutor;

@@ -73,11 +73,15 @@ enum RepeatType {
 
     /**
      * Run until child returns FAIL status, at most `max` times. Zero implies no limit.
+     * Returns SUCCESS once child fails. Returns FAIL if `max` cycles complete without
+     * a FAIL occurring.
     **/
     UNTIL_FAIL(max:Int);
 
     /**
      * Run until child returns SUCCESS status, at most `max` times. Zero implies no limit.
+     * Returns SUCCESS once child succeeds. Returns FAIL if `max` cycles complete without
+     * a SUCCESS occurring.
     **/
     UNTIL_SUCCESS(max:Int);
 

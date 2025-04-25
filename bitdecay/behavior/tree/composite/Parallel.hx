@@ -39,42 +39,47 @@ class Parallel extends CompositeNode {
             #end
         }
 
+        var successes = 0;
+        var failures = 0;
+		for (s in statuses) {
+            successes += s == SUCCESS ? 1 : 0;
+            failures += s == FAIL ? 1 : 0;
+		}
+
+        var completes = successes + failures;
+        var allComplete = children.length == completes;
+
         switch condition {
-            case UNTIL_FIRST_FAIL:
-                if (statuses.contains(FAIL)) {
-                    // trace('ON_FIRST_FAIL triggered');
+            case FAIL_ON_FIRST_FAIL:
+                if (failures > 0) {
                     cancelIncomplete();
                     return FAIL;
                 }
-            case UNTIL_FIRST_SUCCESS:
-                if (statuses.contains(SUCCESS)) {
-                    // trace('ON_FIRST_SUCCESS triggered');
+
+                if (allComplete) {
+                    return SUCCESS;
+                }
+            case SUCCEED_ON_FIRST_SUCCESS:
+                if (successes > 0) {
                     cancelIncomplete();
                     return SUCCESS;
                 }
-            default:
-                // only need to check these up front
+
+                if (allComplete) {
+                    return FAIL;
+                }
+            case UNTIL_N_COMPLETE(n):
+                if (n == completes) {
+                    cancelIncomplete();
+                    return SUCCESS;
+                }
+            case UNTIL_ALL_COMPLETE:
+                if (allComplete) {
+                    return SUCCESS;
+                }
         }
 
-		var allSuccess = true;
-		for (s in statuses) {
-			allSuccess = allSuccess && s == SUCCESS;
-
-			if (s == RUNNING) {
-				return RUNNING;
-			}
-		}
-
-        switch condition {
-            case UNTIL_ALL_COMPLETE, UNTIL_FIRST_FAIL:
-                //trace('all tasks finished');
-                return SUCCESS;
-            default:
-                // other conditions were checked earlier
-        }
-
-        trace("something went wrong, fail");
-        return FAIL;
+        return RUNNING;
     }
 
     private function cancelIncomplete():Void {
@@ -96,8 +101,8 @@ class Parallel extends CompositeNode {
 }
 
 enum Condition {
-    UNTIL_FIRST_FAIL;
-    UNTIL_FIRST_SUCCESS;
+    FAIL_ON_FIRST_FAIL;
+    SUCCEED_ON_FIRST_SUCCESS;
+    UNTIL_N_COMPLETE(n:Int);
     UNTIL_ALL_COMPLETE;
-    // Room here for more options, such as `ON_N_SUCCESS(n:Int)`, etc
 }
