@@ -34,7 +34,7 @@ class Parallel extends CompositeNode {
             if (previousStatuses[i] != statuses[i]) {
                 previousStatuses[i] = statuses[i];
                 @:privateAccess
-                context.owner.nodeStatusChange.dispatch(this, children[i], statuses[i]);
+                context.executor.dispatchChange(this, children[i], statuses[i]);
             }
             #end
         }
@@ -43,13 +43,13 @@ class Parallel extends CompositeNode {
             case UNTIL_FIRST_FAIL:
                 if (statuses.contains(FAIL)) {
                     // trace('ON_FIRST_FAIL triggered');
-                    exitIncomplete();
+                    cancelIncomplete();
                     return FAIL;
                 }
             case UNTIL_FIRST_SUCCESS:
                 if (statuses.contains(SUCCESS)) {
                     // trace('ON_FIRST_SUCCESS triggered');
-                    exitIncomplete();
+                    cancelIncomplete();
                     return SUCCESS;
                 }
             default:
@@ -77,14 +77,14 @@ class Parallel extends CompositeNode {
         return FAIL;
     }
 
-    private function exitIncomplete():Void {
+    private function cancelIncomplete():Void {
         for (i in 0...statuses.length) {
             if (statuses[i] == RUNNING) {
-                children[i].exit();
+                children[i].cancel();
 
                 #if debug
                 @:privateAccess
-                context.owner.nodeStatusChange.dispatch(this, children[i], FAIL);
+                context.executor.dispatchChange(this, children[i], FAIL);
                 #end
             }
         }

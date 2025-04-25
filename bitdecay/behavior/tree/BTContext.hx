@@ -1,7 +1,7 @@
 package bitdecay.behavior.tree;
 
 class BTContext {
-    public var owner:BTree;
+    public var executor:BTExecutor;
     private var contents:Map<String, Dynamic>;
 
     public var dirty:Bool = false;
@@ -11,10 +11,17 @@ class BTContext {
     }
 
     /**
-     * Returns true if a value is set for the given key, false otherwise
+     * Returns true if a value is set for `key`, false otherwise
     **/
     public function has(key:String):Bool {
         return contents.exists(key);
+    }
+
+    /**
+     * Returns true if a value is set for `key` and is of type `t`, false otherwise
+    **/
+    public function hasTyped(key:String, t:Dynamic):Bool {
+        return contents.exists(key) && Std.isOfType(contents.get(key), t);
     }
 
     /**
@@ -36,6 +43,20 @@ class BTContext {
         }
 
         return false;
+    }
+
+    /**
+     * Gets the requested key from the context as a float. Returns
+     * Negative infinity if value not present, or value not is not a number
+    **/
+    public function getFloat(key:String):Float {
+        var val = contents.get(key);
+
+        if (val != null && (val is Float || val is Int)) {
+            return cast val;
+        }
+
+        return Math.NEGATIVE_INFINITY;
     }
 
     /**

@@ -1,42 +1,46 @@
 package bitdecay.behavior.tree.leaf.util;
 
-import flixel.math.FlxMath;
 import bitdecay.behavior.tree.BTContext;
 import bitdecay.behavior.tree.NodeStatus;
 import bitdecay.behavior.tree.leaf.LeafNode;
 
 /**
- * Waits a random amount of time between min/max. If no times provided to constructor, the context is
- * used to determine wait times
+ * Waits a random amount of time between min/max.
  **/ 
 class Wait extends LeafNode {
-    public static inline var MIN_TIME = "waitMin";
-    public static inline var MAX_TIME = "waitMax";
     
     var started:Bool;
     var initial:Float;
     var remaining:Float;
-    var minTime:Float;
-    var maxTime:Float;
+    var minTime:WaitTime;
+    var maxTime:WaitTime;
 
-    public function new(min:Float = -1.0, max:Float = -1.0) {
+    public function new(min:WaitTime, ?max:WaitTime) {
         minTime = min;
-        maxTime = Math.max(min, max);
+        maxTime = max != null ? max : min;
     }
 
     override public function init(context:BTContext) {
         super.init(context);
         started = false;
-        var min = minTime;
-        if (min < 0 && context.has(MIN_TIME)) {
-            min = cast(context.get(MIN_TIME), Float);
-        }
-        var max = maxTime;
-        if (max < 0 && context.has(MAX_TIME)) {
-            max = cast(context.get(MAX_TIME), Float);
-        }
+        var min = getFloat(minTime);
+        var max = getFloat(maxTime);
+
         initial = min + Math.random() * (max - min);
         remaining = initial;
+    }
+
+    private function getFloat(wt:WaitTime):Float {
+        switch(wt) {
+            case CONST(t):
+                return t;
+            case VAR(name, backup):
+                if (context.hasTyped(name, Float) || context.hasTyped(name, Int)) {
+                    return context.getFloat(name);
+                }
+
+                return backup;
+        }
     }
 
     override public function doProcess(delta:Float):NodeStatus {
@@ -53,4 +57,17 @@ class Wait extends LeafNode {
     override function getDetail():Array<String> {
         return ['min: ${minTime}, max: ${maxTime}', 'initial: ${FlxMath.roundDecimal(initial, 3)}, remaining: ${FlxMath.roundDecimal(remaining, 3)}'];
     }
+}
+
+enum WaitTime {
+    /**
+     * A fixed time
+    **/
+    CONST(t:Float);
+
+    /**
+     * Pull time from a variable. Backup is used if the var
+     * is missing or value is not a number
+    **/
+    VAR(name:String, backup:Float);
 }

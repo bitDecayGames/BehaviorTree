@@ -21,7 +21,7 @@ class DecoratorNode implements Node {
 
         #if debug
 		@:privateAccess
-		context.owner.nodeStatusChange.dispatch(this, child, UNKNOWN);
+		context.executor.dispatchChange(this, child, UNKNOWN);
 		#end
     }
 
@@ -38,7 +38,7 @@ class DecoratorNode implements Node {
             previousChildStatus = rawStatus;
 
             @:privateAccess
-            context.owner.nodeStatusChange.dispatch(this, child, rawStatus);
+            context.executor.dispatchChange(this, child, rawStatus);
         }
 
         if (result == SUCCESS || result == FAIL) {
@@ -58,7 +58,7 @@ class DecoratorNode implements Node {
         return raw;
     }
 
-    public function exit():Void {}
+    public function cancel():Void {}
 
     function getChildren():Array<Node> {
         return [child];

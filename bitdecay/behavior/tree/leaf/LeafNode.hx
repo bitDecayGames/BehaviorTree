@@ -28,7 +28,7 @@ class LeafNode implements Node {
         return FAIL;
     }
 
-    public function exit():Void {}
+    public function cancel():Void {}
 
     function getChildren():Array<Node> {
         return [];

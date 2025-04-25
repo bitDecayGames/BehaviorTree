@@ -3,9 +3,6 @@ package bitdecay.behavior.tree.decorator;
 /**
  * Runs the child node until it completes or the interrupt signal is caught,
  * whichever happens first.
- *
- * If the interrupt signal is received on the same process cycle that the
- * child node completes and the status is returned.
 **/
 class Interrupter extends DecoratorNode {
     var type:InterruptType;
@@ -19,25 +16,23 @@ class Interrupter extends DecoratorNode {
         super.init(context);
     }
 
-    override public function doProcess(raw:NodeStatus):NodeStatus {
-        if (raw != RUNNING) {
-            return raw;
-        }
-
+    override function process(delta:Float):NodeStatus {
+        // check this up-front so we don't bother even trying to run children if
+        // our signal already triggered
         switch(type) {
             case KEY_PRESENCE(k):
                 if (context.has(k)) {
-                    child.exit();
+                    child.cancel();
                     return FAIL;
                 }
             case CONDITION(fn):
                 if (fn()) {
-                    child.exit();
+                    child.cancel();
                     return FAIL;
                 }
         }
 
-        return RUNNING;
+        return super.process(delta);
     }
 
     override function getDetail():Array<String> {
@@ -46,6 +41,13 @@ class Interrupter extends DecoratorNode {
 }
 
 enum InterruptType {
+    /**
+     * Interrupts upon key presence
+    **/
     KEY_PRESENCE(k:String);
+
+    /**
+     * Interrupts upon function returning true
+    **/
     CONDITION(fn:()->Bool);
 }

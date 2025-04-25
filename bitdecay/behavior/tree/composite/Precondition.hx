@@ -36,13 +36,13 @@ class Precondition extends CompositeNode {
 		if (conditionStatus != previousConditionStatus) {
 			previousConditionStatus = conditionStatus;
 			@:privateAccess
-			context.owner.nodeStatusChange.dispatch(this, children[0], conditionStatus);
+			context.executor.dispatchChange(this, children[0], conditionStatus);
 		}
 		#end
 		
 
 		if (conditionStatus == FAIL) {
-			children[1].exit();
+			children[1].cancel();
 			return FAIL;
 		} else if (conditionStatus == SUCCESS) {
 			running = true;
@@ -61,7 +61,7 @@ class Precondition extends CompositeNode {
 			previousChildStatus = childStatus;
 
 			@:privateAccess
-			context.owner.nodeStatusChange.dispatch(this, children[1], childStatus);
+			context.executor.dispatchChange(this, children[1], childStatus);
 		}
 		#end
 

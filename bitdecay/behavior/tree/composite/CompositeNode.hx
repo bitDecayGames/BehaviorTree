@@ -17,7 +17,7 @@ class CompositeNode implements Node {
             c.init(context);
             #if debug
             @:privateAccess
-            context.owner.nodeStatusChange.dispatch(this, c, UNKNOWN);
+            context.executor.dispatchChange(this, c, UNKNOWN);
             #end
         }
     }
@@ -40,7 +40,7 @@ class CompositeNode implements Node {
         return FAIL;
     }
 
-    public function exit():Void {}
+    public function cancel():Void {}
 
     function getChildren():Array<Node> {
         return children;

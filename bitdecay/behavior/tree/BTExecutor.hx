@@ -1,18 +1,19 @@
 package bitdecay.behavior.tree;
 
-import flixel.util.FlxSignal.FlxTypedSignal;
-
-
 /**
- * Top node of a Behavior Tree that owns the tree and its context
+ * Controls the execution of a BTree
 **/
-class BTree implements Node {
+class BTExecutor {
     private var root:Node;
     private var context:BTContext;
 
+    var pendingAdds:Array<Node> = [];
+    var pendingRemoves:Array<Node> = [];
+    var persistentProcessNodes:Array<Node> = [];
+
     var previousChildStatus:NodeStatus = null;
 
-    public var nodeStatusChange = new FlxTypedSignal<(Node, Node, NodeStatus) ->Void>();
+    private var nodeStatusListeners:Array<(Node, Node, NodeStatus) ->Void> = [];
 
     public function new(root:Node) {
         if (root == null) {
@@ -22,12 +23,22 @@ class BTree implements Node {
         this.root = root;
     }
 
+    public function addChangeListener(fn:(Node, Node, NodeStatus)->Void) {
+        nodeStatusListeners.push(fn);
+    }
+
+    public function dispatchChange(p:Node, c:Node, status:NodeStatus) {
+        for (fn in nodeStatusListeners) {
+            fn(p, c, status);
+        }
+    }
+
     public function init(context:BTContext) {
         if (context == null) {
 			context = new BTContext();
         }
 
-        context.owner = this;
+        context.executor = this;
         this.context = context;
 
         previousChildStatus = null;
@@ -52,7 +63,7 @@ class BTree implements Node {
             previousChildStatus = result;
 
             @:privateAccess
-            context.owner.nodeStatusChange.dispatch(null, root, result);
+            context.executor.dispatchChange(null, root, result);
         }
         #end
 
@@ -78,13 +89,7 @@ class BTree implements Node {
         return result;
     }
 
-    public function exit():Void {}
-
-    function getChildren():Array<Node> {
-        return [root];
-    }
-
-    function getDetail():Array<String> {
-        return [];
+    public function cancel():Void {
+        root.cancel();
     }
 }

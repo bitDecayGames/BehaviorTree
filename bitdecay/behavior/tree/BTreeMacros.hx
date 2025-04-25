@@ -6,6 +6,10 @@ import haxe.macro.Context;
 #end
 
 class BTreeMacros {
+    /**
+     * Wraps a function so that tooling can display information
+     * about the function
+    **/
     public static macro function wrapFn(func:Expr):Expr {
         var posExpr = macro @:pos(func.pos) null;
         var info = Context.getPosInfos(func.pos);
@@ -41,7 +45,7 @@ class BTreeMacros {
 }
 
 /**
- * A wrapped function so that we can display location information when debugging
+ * A wrapped function so that we can display location information within tooling
 **/
 typedef BTFunc = {
     var name:String;

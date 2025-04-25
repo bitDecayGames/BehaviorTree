@@ -10,15 +10,15 @@ interface Node {
     public function init(context:BTContext):Void;
 
     /**
-     * Called each time this node is updated
+     * Called each time the node is updated
     **/
     public function process(delta:Float):NodeStatus;
 
     /**
-     * Allows any cleanup logic in case a node needs
-     * to be cancelled in certain situations
+     * Allows any cleanup logic if a node is cancelled
+     * before it finishes executing
     **/
-    public function exit():Void;
+    public function cancel():Void;
 
     /**
      * Used internally to navigate a tree for tooling purposes
