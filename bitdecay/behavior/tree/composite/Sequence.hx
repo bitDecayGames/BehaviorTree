@@ -53,7 +53,7 @@ class Sequence extends CompositeNode {
                 index++;
                 needsInit = true;
                 previousChildStatus = UNKNOWN;
-                continue;
+                return RUNNING;
             }
         }
 

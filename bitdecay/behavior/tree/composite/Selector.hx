@@ -103,7 +103,7 @@ class Selector extends CompositeNode {
                 needsInit = true;
                 index++;
                 previousChildStatus = UNKNOWN;
-                continue;
+                return RUNNING;
             }
         }
 
