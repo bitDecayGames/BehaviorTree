@@ -1,5 +1,7 @@
 package bitdecay.behavior.tree.decorator;
 
+import bitdecay.behavior.tree.context.BTContext;
+
 /**
  * Wraps a child code allowing for logic before/after the child node process is called
 **/

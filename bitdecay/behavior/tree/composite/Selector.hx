@@ -1,5 +1,7 @@
 package bitdecay.behavior.tree.composite;
 
+import bitdecay.behavior.tree.context.BTContext;
+
 /**
  * Traverses the children nodes, returning SUCCESS upon
  * first child returning SUCCESS.

@@ -1,5 +1,6 @@
 package bitdecay.behavior.tree;
 
+import bitdecay.behavior.tree.context.BTContext;
 #if macro
 import haxe.macro.Expr;
 import haxe.macro.Context;
@@ -51,5 +52,15 @@ typedef BTFunc = {
     var name:String;
     var file:String;
     var line:Int;
-    var func:Void->Void;
+    var func:BTContext->Void;
+}
+
+/**
+ * A wrapped status-returning function so that we can display location information within tooling
+**/
+ typedef BTProcessFunc = {
+    var name:String;
+    var file:String;
+    var line:Int;
+    var func:(BTContext, Float)->NodeStatus;
 }

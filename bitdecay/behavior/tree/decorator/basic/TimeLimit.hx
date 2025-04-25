@@ -1,5 +1,6 @@
 package bitdecay.behavior.tree.decorator.basic;
 
+import bitdecay.behavior.tree.context.BTContext;
 import bitdecay.behavior.tree.decorator.DecoratorNode;
 import bitdecay.behavior.tree.NodeStatus;
 

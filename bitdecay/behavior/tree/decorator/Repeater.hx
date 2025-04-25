@@ -1,5 +1,7 @@
 package bitdecay.behavior.tree.decorator;
 
+import bitdecay.behavior.tree.context.BTContext;
+
 /**
  * Runs the child node the multiple times according to the RepeatType
 **/

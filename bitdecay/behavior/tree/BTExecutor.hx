@@ -1,5 +1,7 @@
 package bitdecay.behavior.tree;
 
+import bitdecay.behavior.tree.context.BTContext;
+
 /**
  * Controls the execution of a BTree
 **/

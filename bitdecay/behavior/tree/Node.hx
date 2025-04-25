@@ -1,5 +1,7 @@
 package bitdecay.behavior.tree;
 
+import bitdecay.behavior.tree.context.BTContext;
+
 interface Node {
     /**
      * Called when the node is initialized. This can happen in

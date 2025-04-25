@@ -1,5 +1,7 @@
 package bitdecay.behavior.tree.leaf;
 
+import bitdecay.behavior.tree.context.BTContext;
+
 /**
  * Node intended to be extended to capture the business logic of a given application
 **/

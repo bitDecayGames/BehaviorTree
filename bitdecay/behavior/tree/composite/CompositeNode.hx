@@ -1,5 +1,7 @@
 package bitdecay.behavior.tree.composite;
 
+import bitdecay.behavior.tree.context.BTContext;
+
 /**
  * A node that has children nodes
 **/

@@ -2,19 +2,20 @@ package bitdecay.behavior.tree.leaf.util;
 
 import bitdecay.behavior.tree.leaf.LeafNode;
 import bitdecay.behavior.tree.NodeStatus;
+import bitdecay.behavior.tree.BTreeMacros;
 
 /**
  * Utility node that runs the provided callback and returns the status of it
 **/
 class StatusAction extends LeafNode {
-	var cb:(Float)->NodeStatus;
+	var cb:BTProcessFunc;
 
-    public function new(cb:(Float)->NodeStatus) {
+    public function new(cb:BTProcessFunc) {
 		this.cb = cb;
 	}
 
     override public function doProcess(delta:Float):NodeStatus {
-		return cb(delta);
+		return cb.func(context, delta);
     }
 
 	override function getDetail():Array<String> {

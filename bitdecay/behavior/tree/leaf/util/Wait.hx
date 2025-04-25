@@ -55,7 +55,9 @@ class Wait extends LeafNode {
     }
 
     override function getDetail():Array<String> {
-        return ['min: ${minTime}, max: ${maxTime}', 'initial: ${FlxMath.roundDecimal(initial, 3)}, remaining: ${FlxMath.roundDecimal(remaining, 3)}'];
+        // TODO: Round decimal to 3 places without flixel dependency
+        // return ['min: ${minTime}, max: ${maxTime}', 'initial: ${FlxMath.roundDecimal(initial, 3)}, remaining: ${FlxMath.roundDecimal(remaining, 3)}'];
+        return [];
     }
 }
 
