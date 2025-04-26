@@ -62,6 +62,10 @@ class DecoratorNode implements Node {
 
     public function cancel():Void {}
 
+    public function clone():Node {
+        throw 'clone() must be implemented';
+    }
+
     function getChildren():Array<Node> {
         return [child];
     }

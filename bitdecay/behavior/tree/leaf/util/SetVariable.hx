@@ -20,6 +20,10 @@ class SetVariable extends LeafNode {
         return SUCCESS;
     }
 
+	override public function clone():Node {
+        return new SetVariable(name, value);
+    }
+
 	override function getDetail():Array<String> {
         return ['var: ${name}, value: ${value}'];
     }

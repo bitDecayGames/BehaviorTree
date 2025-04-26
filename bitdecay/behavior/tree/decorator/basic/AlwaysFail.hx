@@ -14,4 +14,8 @@ class AlwaysFail extends DecoratorNode {
         }
         return FAIL;
     }
+
+    override public function clone():Node {
+        return new AlwaysFail(child.clone());
+    }
 }

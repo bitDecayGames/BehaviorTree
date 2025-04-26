@@ -51,4 +51,8 @@ class Sequence extends CompositeNode {
         // We have traversed all of our nodes with no failures, so we have succeeded
         return SUCCESS;
     }
+
+    override public function clone():Node {
+        return new Sequence([for (node in children) node.clone()]);
+    }
 }

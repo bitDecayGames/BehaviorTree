@@ -62,6 +62,10 @@ class Repeater extends DecoratorNode {
         return raw;
     }
 
+    override public function clone():Node {
+        return new Repeater(type, child.clone());
+    }
+
     override function getDetail():Array<String> {
         return ['type: ${type}', 'current: ${count}'];
     }

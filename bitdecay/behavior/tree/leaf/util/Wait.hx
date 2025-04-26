@@ -1,5 +1,6 @@
 package bitdecay.behavior.tree.leaf.util;
 
+import bitdecay.behavior.tree.enums.Time;
 import bitdecay.behavior.tree.context.BTContext;
 import bitdecay.behavior.tree.NodeStatus;
 import bitdecay.behavior.tree.leaf.LeafNode;
@@ -12,10 +13,10 @@ class Wait extends LeafNode {
     var started:Bool;
     var initial:Float;
     var remaining:Float;
-    var minTime:WaitTime;
-    var maxTime:WaitTime;
+    var minTime:Time;
+    var maxTime:Time;
 
-    public function new(min:WaitTime, ?max:WaitTime) {
+    public function new(min:Time, ?max:Time) {
         minTime = min;
         maxTime = max != null ? max : min;
     }
@@ -23,24 +24,11 @@ class Wait extends LeafNode {
     override public function init(context:BTContext) {
         super.init(context);
         started = false;
-        var min = getFloat(minTime);
-        var max = getFloat(maxTime);
+        var min = TimeHelper.getFloat(context, minTime);
+        var max = TimeHelper.getFloat(context, maxTime);
 
         initial = min + Math.random() * (max - min);
         remaining = initial;
-    }
-
-    private function getFloat(wt:WaitTime):Float {
-        switch(wt) {
-            case CONST(t):
-                return t;
-            case VAR(name, backup):
-                if (context.hasTyped(name, Float) || context.hasTyped(name, Int)) {
-                    return context.getFloat(name);
-                }
-
-                return backup;
-        }
     }
 
     override public function doProcess(delta:Float):NodeStatus {
@@ -54,22 +42,11 @@ class Wait extends LeafNode {
         return RUNNING;
     }
 
-    override function getDetail():Array<String> {
-        // TODO: Round decimal to 3 places without flixel dependency
-        // return ['min: ${minTime}, max: ${maxTime}', 'initial: ${FlxMath.roundDecimal(initial, 3)}, remaining: ${FlxMath.roundDecimal(remaining, 3)}'];
-        return [];
+    override public function clone():Node {
+        return new Wait(minTime, maxTime);
     }
-}
 
-enum WaitTime {
-    /**
-     * A fixed time
-    **/
-    CONST(t:Float);
-
-    /**
-     * Pull time from a variable. Backup is used if the var
-     * is missing or value is not a number
-    **/
-    VAR(name:String, backup:Float);
+    override function getDetail():Array<String> {
+        return ['min: ${minTime}, max: ${maxTime}', 'initial: ${TimeHelper.roundMS(initial)}, remaining: ${TimeHelper.roundMS(remaining)}'];
+    }
 }

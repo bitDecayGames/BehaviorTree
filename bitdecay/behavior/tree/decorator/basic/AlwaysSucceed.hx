@@ -14,4 +14,8 @@ class AlwaysSucceed extends DecoratorNode {
         }
         return SUCCESS;
     }
+
+    override public function clone():Node {
+        return new AlwaysSucceed(child.clone());
+    }
 }

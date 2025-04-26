@@ -6,10 +6,14 @@ import bitdecay.behavior.tree.NodeStatus;
 /**
  * Utility node that always fails
 **/
-class Failure extends LeafNode {
+class Fail extends LeafNode {
     public function new() {}
 
     override public function doProcess(delta:Float):NodeStatus {
         return FAIL;
+    }
+
+    override public function clone():Node {
+        return new Fail();
     }
 }

@@ -37,6 +37,10 @@ class Interrupter extends DecoratorNode {
         return super.process(delta);
     }
 
+    override public function clone():Node {
+        return new Interrupter(type, child.clone());
+    }
+
     override function getDetail():Array<String> {
         return ['type: ${type}'];
     }

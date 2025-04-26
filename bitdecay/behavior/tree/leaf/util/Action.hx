@@ -19,6 +19,10 @@ class Action extends LeafNode {
         return SUCCESS;
     }
 
+    override public function clone():Node {
+        return new Action(cb);
+    }
+
 	override function getDetail():Array<String> {
         return ['name: ${cb.name}', 'file: ${cb.file}:${cb.line}'];
     }

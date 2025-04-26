@@ -22,6 +22,10 @@ class IsVarNull extends LeafNode {
         return FAIL;
     }
 
+	override public function clone():Node {
+        return new IsVarNull(name);
+    }
+
 	override function getDetail():Array<String> {
         return ['var: ${name}'];
     }

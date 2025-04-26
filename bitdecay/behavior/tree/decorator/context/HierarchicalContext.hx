@@ -22,4 +22,8 @@ class HierarchicalContext extends DecoratorNode {
         }
         previousChildStatus = null;
 	}
+
+	override public function clone():Node {
+        return new HierarchicalContext(child.clone());
+    }
 }

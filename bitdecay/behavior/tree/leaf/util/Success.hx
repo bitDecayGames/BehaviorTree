@@ -12,4 +12,8 @@ class Success extends LeafNode {
     override public function doProcess(delta:Float):NodeStatus {
         return SUCCESS;
     }
+
+    override public function clone():Node {
+        return new Success();
+    }
 }

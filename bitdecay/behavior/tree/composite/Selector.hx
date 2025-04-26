@@ -102,6 +102,10 @@ class Selector extends CompositeNode {
         return FAIL;
     }
 
+    override public function clone():Node {
+        return new Selector(type, [for (node in children) node.clone()]);
+    }
+
     override function getDetail():Array<String> {
         return ['type: ${type}', 'order: ${order}'];
     }

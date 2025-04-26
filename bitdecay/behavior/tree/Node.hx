@@ -23,6 +23,11 @@ interface Node {
     public function cancel():Void;
 
     /**
+     * Returns a clone of this node and all children under it
+    **/
+    public function clone():Node;
+
+    /**
      * Used internally to navigate a tree for tooling purposes
     **/
     private function getChildren():Array<Node>;

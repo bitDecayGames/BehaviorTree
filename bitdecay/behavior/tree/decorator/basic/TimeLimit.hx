@@ -1,5 +1,6 @@
 package bitdecay.behavior.tree.decorator.basic;
 
+import bitdecay.behavior.tree.enums.Time;
 import bitdecay.behavior.tree.context.BTContext;
 import bitdecay.behavior.tree.decorator.DecoratorNode;
 import bitdecay.behavior.tree.NodeStatus;
@@ -12,17 +13,19 @@ import bitdecay.behavior.tree.NodeStatus;
  * returns child node status.
 **/
 class TimeLimit extends DecoratorNode {
-	var limit:Float;
+	var limit:Time;
+	var initial:Float;
 	var remaining:Float;
 
-	public function new(limit:Float) {
+	public function new(limit:Time, child:Node) {
         super(child);
         this.limit = limit;
     }
 
     override function init(context:BTContext) {
         super.init(context);
-		remaining = limit;
+		initial = TimeHelper.getFloat(context, limit);
+		remaining = initial;
     }
 
 	override function process(delta:Float):NodeStatus {
@@ -36,5 +39,13 @@ class TimeLimit extends DecoratorNode {
 		}
 
 		return raw;
+    }
+
+	override public function clone():Node {
+        return new TimeLimit(limit, child.clone());
+    }
+
+	override function getDetail():Array<String> {
+        return ['limit: ${limit}, initial: ${TimeHelper.roundMS(initial)}, remaining: ${TimeHelper.roundMS(remaining)}'];
     }
 }

@@ -18,6 +18,10 @@ class StatusAction extends LeafNode {
 		return cb.func(context, delta);
     }
 
+	override public function clone():Node {
+        return new StatusAction(cb);
+    }
+
 	override function getDetail():Array<String> {
         return [Std.string(cb)];
     }
