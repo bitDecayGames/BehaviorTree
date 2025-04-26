@@ -1,4 +1,4 @@
-package bitdecay.behavior.tree.decorator.basic;
+package bitdecay.behavior.tree.decorator;
 
 import bitdecay.behavior.tree.enums.Time;
 import bitdecay.behavior.tree.context.BTContext;

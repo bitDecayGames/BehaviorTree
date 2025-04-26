@@ -1,4 +1,4 @@
-package bitdecay.behavior.tree.leaf.util;
+package bitdecay.behavior.tree.leaf;
 
 import bitdecay.behavior.tree.leaf.LeafNode;
 import bitdecay.behavior.tree.NodeStatus;

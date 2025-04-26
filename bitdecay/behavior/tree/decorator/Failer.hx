@@ -1,21 +1,21 @@
-package bitdecay.behavior.tree.decorator.basic;
+package bitdecay.behavior.tree.decorator;
 
 import bitdecay.behavior.tree.decorator.DecoratorNode;
 import bitdecay.behavior.tree.NodeStatus;
 
 /**
- * Runs the child node, returning a SUCCESS status upon completion regardless of actual
+ * Runs the child node, returning a FAIL status upon completion regardless of actual
  * completion status
 **/
-class AlwaysSucceed extends DecoratorNode {
+class Failer extends DecoratorNode {
     override public function doProcess(raw:NodeStatus):NodeStatus {
         if (raw == RUNNING) {
             return RUNNING;
         }
-        return SUCCESS;
+        return FAIL;
     }
 
     override public function clone():Node {
-        return new AlwaysSucceed(child.clone());
+        return new Failer(child.clone());
     }
 }
