@@ -10,6 +10,6 @@ class SucceederTest {
 		var node = new Succeeder(new Fail());
 		node.init(new BTContext());
 
-		Assert.areEqual(NodeStatus.SUCCESS, node.process(0.1));
+		NodeAssert.processStatus(SUCCESS, node);
 	}
 }

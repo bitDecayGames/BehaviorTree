@@ -5,34 +5,47 @@ import bitdecay.behavior.tree.Node;
 import bitdecay.behavior.tree.NodeStatus;
 import bitdecay.behavior.tree.leaf.LeafNode;
 
-class TestNode extends LeafNode {
+class TestUtils {
+	public static function getRunningNode(cycle:Int, then:NodeStatus) {
+		return new StatusFlipNode(RUNNING, cycle, then);
+	}
+}
+
+class StatusFlipNode extends LeafNode {
 	public var cycle:Int;
-	public var result:NodeStatus;
+	public var start:NodeStatus;
+	public var end:NodeStatus;
 	public var processCount:Int = 0;
+	public var resetOnInit = true;
 	public var cancelled = false;
 
-    public function new(cycle:Int, result:NodeStatus) {
+    public function new(startStatus:NodeStatus, cycle:Int, flipStatus:NodeStatus, ?resetOnInit:Bool = true) {
 		this.cycle = cycle;
-		this.result = result;
+		this.start = startStatus;
+		this.end = flipStatus;
+		this.resetOnInit = resetOnInit;
 	}
 
 	override function init(context:BTContext) {
 		super.init(context);
-		processCount = 0;
-		cancelled = false;
+		if (resetOnInit) {
+			processCount = 0;
+			cancelled = false;
+		}
 	}
 
-    override public function doProcess(delta:Float):NodeStatus {
+	override function process(delta:Float):NodeStatus {
 		processCount++;
-		if (processCount == cycle) {
-			return result;
+
+		if (processCount < cycle) {
+			return start;
 		}
 
-		return RUNNING;
-    }
+		return end;
+	}
 
 	override public function clone():Node {
-        return new TestNode(cycle, result);
+        return new StatusFlipNode(start, cycle, end);
     }
 
 	override function cancel() {

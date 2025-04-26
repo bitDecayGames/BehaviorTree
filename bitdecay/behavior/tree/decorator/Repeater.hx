@@ -33,7 +33,7 @@ class Repeater extends DecoratorNode {
                     RUNNING;
                 case COUNT(n):
                     if (n > 0 && count == n) {
-                        raw;
+                        SUCCESS;
                     } else {
                         child.init(context);
                         RUNNING;
@@ -41,7 +41,7 @@ class Repeater extends DecoratorNode {
                 case UNTIL_FAIL(max):
                     if (raw == FAIL) {
                         SUCCESS;
-                    } else if (count == max) {
+                    } else if (max > 0 && count == max) {
                         FAIL;
                     } else {
                         child.init(context);
@@ -50,7 +50,7 @@ class Repeater extends DecoratorNode {
                 case UNTIL_SUCCESS(max):
                     if (raw == SUCCESS) {
                         raw;
-                    } else if (count == max) {
+                    } else if (max > 0 && count == max) {
                         FAIL;
                     } else {
                         child.init(context);
@@ -73,7 +73,7 @@ class Repeater extends DecoratorNode {
 
 enum RepeatType {
     /**
-     * Run n number of times, returning the final NodeStatus
+     * Run n number of times, returning SUCCESS after n completions
     **/
     COUNT(n:Int);
 

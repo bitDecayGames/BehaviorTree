@@ -10,6 +10,6 @@ class FailerTest {
 		var node = new Failer(new Success());
 		node.init(new BTContext());
 
-		Assert.areEqual(NodeStatus.FAIL, node.process(0.1));
+		NodeAssert.processStatus(FAIL, node);
 	}
 }
