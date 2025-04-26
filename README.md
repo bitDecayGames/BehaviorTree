@@ -21,3 +21,10 @@ Install test deps off of the github master commit
 haxelib git munit https://github.com/massiveinteractive/MassiveUnit.git master src
 haxelib git hamcrest https://github.com/mikestead/hamcrest-haxe.git master src
 ```
+
+Run tests
+```
+haxelib run munit test -neko
+```
+
+Neko seems to be more reliable than hashlink

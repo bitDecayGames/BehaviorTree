@@ -75,7 +75,7 @@ class Selector extends CompositeNode {
 
     override public function doProcess(delta:Float):NodeStatus {
         var result = NodeStatus.FAIL;
-        while (index < children.length) {
+        if (index < children.length) {
             result = children[order[index]].process(delta);
 
             #if debug
@@ -91,8 +91,10 @@ class Selector extends CompositeNode {
                 return result;
             } else if (result == SUCCESS) {
                 return result;
-            } else {
-                index++;
+            }
+
+            index++;
+            if (index < children.length) {
                 previousChildStatus = UNKNOWN;
                 return RUNNING;
             }
