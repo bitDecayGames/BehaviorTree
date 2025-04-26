@@ -1,11 +1,12 @@
-package bitdecay.behavior.tree.leaf.util;
+package bitdecay.behavior.tree.leaf;
 
 import bitdecay.behavior.tree.BTreeMacros.BTFunc;
 import bitdecay.behavior.tree.leaf.LeafNode;
 import bitdecay.behavior.tree.NodeStatus;
 
 /**
- * Utility node that runs the provided callback and always reports success
+ * Utility node that runs the provided callback and always
+ * reports SUCCESS
 **/
 class Action extends LeafNode {
 	var cb:BTFunc;

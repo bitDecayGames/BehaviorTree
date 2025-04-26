@@ -1,11 +1,12 @@
-package bitdecay.behavior.tree.leaf.util;
+package bitdecay.behavior.tree.leaf;
 
 import bitdecay.behavior.tree.leaf.LeafNode;
 import bitdecay.behavior.tree.NodeStatus;
 import bitdecay.behavior.tree.BTreeMacros;
 
 /**
- * Utility node that runs the provided callback and returns the status of it
+ * Utility node that runs the provided callback and returns
+ * its node status
 **/
 class StatusAction extends LeafNode {
 	var cb:BTProcessFunc;

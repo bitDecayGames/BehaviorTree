@@ -1,4 +1,4 @@
-package bitdecay.behavior.tree.decorator.context;
+package bitdecay.behavior.tree.decorator;
 
 import bitdecay.behavior.tree.context.BTContext;
 import bitdecay.behavior.tree.context.FallbackContext;
