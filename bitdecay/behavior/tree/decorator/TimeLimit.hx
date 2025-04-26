@@ -30,16 +30,13 @@ class TimeLimit extends DecoratorNode {
 
 	override function process(delta:Float):NodeStatus {
 		remaining = Math.max(remaining - delta, 0);
-		return super.process(delta);
-	}
-
-    override public function doProcess(raw:NodeStatus):NodeStatus {
 		if (remaining == 0) {
+			child.cancel();
 			return FAIL;
 		}
 
-		return raw;
-    }
+		return super.process(delta);
+	}
 
 	override public function clone():Node {
         return new TimeLimit(limit, child.clone());

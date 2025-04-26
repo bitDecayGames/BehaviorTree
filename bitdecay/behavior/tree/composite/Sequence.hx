@@ -9,24 +9,34 @@ import bitdecay.behavior.tree.context.BTContext;
  * Logically, this is similar to the AND operation
  **/
 class Sequence extends CompositeNode {
+    var type:SequenceType;
     var index:Int = 0;
-    var lastIndex:Int = -1;
+    var order:Array<Int>;
+
     var previousChildStatus:NodeStatus;
 
-    public function new(children:Array<Node>) {
+    public function new(type:SequenceType, children:Array<Node>) {
         super(children);
+        this.type = type;
     }
 
     override public function init(context:BTContext) {
         super.init(context);
         index = 0;
-        lastIndex = -1;
+        previousChildStatus = UNKNOWN;
+
+        switch type {
+            case IN_ORDER:
+                order = [for (i in 0...children.length) i];
+            case RANDOM(weights):
+                order = Tools.randomIndexOrderFromWeights(weights);
+        }
     }
 
     override public function doProcess(delta:Float):NodeStatus {
         var result = NodeStatus.FAIL;
         while (index < children.length) {
-            result = children[index].process(delta);
+            result = children[order[index]].process(delta);
 
             #if debug
             if (previousChildStatus != result) {
@@ -43,8 +53,10 @@ class Sequence extends CompositeNode {
                 return result;
             } else {
                 index++;
-                previousChildStatus = UNKNOWN;
-                return RUNNING;
+                if (index < children.length) {
+                    previousChildStatus = UNKNOWN;
+                    return RUNNING;
+                }
             }
         }
 
@@ -53,6 +65,14 @@ class Sequence extends CompositeNode {
     }
 
     override public function clone():Node {
-        return new Sequence([for (node in children) node.clone()]);
+        return new Sequence(type, [for (node in children) node.clone()]);
     }
+}
+
+enum SequenceType {
+    // Processes nodes in order
+    IN_ORDER;
+
+    // Process nodes in random order
+    RANDOM(weights:Array<Float>);
 }

@@ -33,6 +33,25 @@ class BTreeMacros {
         };
     }
 
+    public static macro function lengthsMatch(a:ExprOf<Array<Dynamic>>, b:ExprOf<Array<Dynamic>>):ExprOf<Bool> {
+        switch [a.expr, b.expr] {
+            case [EArrayDecl(valuesA), EArrayDecl(valuesB)]:
+                // If both are array literals, check lengths
+                if (valuesA.length != valuesB.length) {
+                    Context.error(
+                        'Array lengths do not match: ${valuesA.length} != ${valuesB.length}',
+                        a.pos
+                    );
+                }
+                // If lengths match, return `true`
+                return macro true;
+
+            default:
+                // If not literals, fall back to runtime check
+                return macro $a.length == $b.length;
+        }
+    }
+
     #if macro
     private static function charPosToLine(file:String, charPos:Int):Int {
         var content = sys.io.File.getContent(file);

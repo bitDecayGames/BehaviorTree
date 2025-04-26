@@ -12,64 +12,42 @@ import bitdecay.behavior.tree.context.BTContext;
 class Selector extends CompositeNode {
     var index:Int = 0;
     var type:SelectorType;
+    var order:Array<Int>;
 
     var previousChildStatus:NodeStatus;
-
-    var order:Array<Int>;
 
     public function new(type:SelectorType, children:Array<Node>) {
         super(children);
         this.type = type;
-        #if btree
         switch type {
             case IN_ORDER:
             case RANDOM(weights):
                 if (weights.length != children.length) {
+                    #if btree
                     trace('weights (len=${weights.length}) does not match children (len=${children.length})');
+                    #end
+
+                    if (weights.length > children.length) {
+                        weights.splice(children.length, children.length - weights.length);
+                    } else {
+                        for (i in 0...children.length - weights.length) {
+                            weights.push(0);
+                        }
+                    }
                 }
         }
-        #end
     }
 
     override function init(context:BTContext) {
         super.init(context);
         index = 0;
         previousChildStatus = UNKNOWN;
-        order = [for (i in 0...children.length) i];
 
         switch type {
             case IN_ORDER:
                 order = [for (i in 0...children.length) i];
             case RANDOM(weights):
-                var indexTracker = order.copy();
-                order = [];
-                var weightTracker = weights.copy();
-                var cumulativeWeights:Array<Float> = [];
-                var sum = 0.0;
-                
-                for (w in weights) {
-                    sum += w;
-                    cumulativeWeights.push(sum);
-                }
-
-                var next = 0;
-                for (i in 0...weights.length) {
-					var r = Math.random() * sum;
-					for (c in 0...cumulativeWeights.length) {
-						if (r <= cumulativeWeights[c]) {
-                            next = c;
-                            break;
-						}
-					}
-                    sum -= weightTracker[next];
-					order.push(indexTracker[next]);
-                    cumulativeWeights.splice(next, 1);
-                    for (k in next...cumulativeWeights.length) {
-                        cumulativeWeights[k] -= weightTracker[next];
-                    }
-                    weightTracker.splice(next, 1);
-                    indexTracker.splice(next, 1);
-                }
+                order = Tools.randomIndexOrderFromWeights(weights);
         }
     }
 
@@ -117,6 +95,6 @@ enum SelectorType {
     // Processes nodes in order
     IN_ORDER;
 
-    // Process nodes in random order. Behavior undefined if number of weights does not match number of child nodes
+    // Process nodes in random order
     RANDOM(weights:Array<Float>);
 }

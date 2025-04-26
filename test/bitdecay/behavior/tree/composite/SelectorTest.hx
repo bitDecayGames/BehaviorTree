@@ -1,8 +1,6 @@
 package bitdecay.behavior.tree.composite;
 
 import TestUtils.TestNode;
-import bitdecay.behavior.tree.BTreeMacros.BTProcessFunc;
-import bitdecay.behavior.tree.leaf.LeafNode;
 import bitdecay.behavior.tree.context.BTContext;
 import massive.munit.Assert;
 
@@ -21,11 +19,12 @@ class SelectorTest {
 		node.init(new BTContext());
 
 		cycle++;
-		Assert.areEqual(NodeStatus.RUNNING, node.process(0.1), "First cycle returns RUNNING");
+		NodeAssert.processStatus(NodeStatus.RUNNING, node);
 		cycle++;
-		Assert.areEqual(NodeStatus.RUNNING, node.process(0.1), "Second cycle returns RUNNING");
+		NodeAssert.processStatus(NodeStatus.RUNNING, node);
 		cycle++;
-		Assert.areEqual(NodeStatus.SUCCESS, node.process(0.1), "Third cycle returns SUCCESS");
+		NodeAssert.processStatus(NodeStatus.SUCCESS, node);
+
 	}
 
 	@Test
@@ -34,7 +33,7 @@ class SelectorTest {
 		var first = new TestNode(1, FAIL);
 		var second = new TestNode(1, FAIL);
 		var third = new TestNode(1, FAIL);
-		var node = new Selector(IN_ORDER, [
+		var node = new Selector(RANDOM([.33, .33, .33]), [
 			first,
 			second,
 			third,
@@ -42,10 +41,10 @@ class SelectorTest {
 		node.init(new BTContext());
 
 		cycle++;
-		Assert.areEqual(NodeStatus.RUNNING, node.process(0.1), "First cycle returns RUNNING");
+		NodeAssert.processStatus(NodeStatus.RUNNING, node);
 		cycle++;
-		Assert.areEqual(NodeStatus.RUNNING, node.process(0.1), "Second cycle returns RUNNING");
+		NodeAssert.processStatus(NodeStatus.RUNNING, node);
 		cycle++;
-		Assert.areEqual(NodeStatus.FAIL, node.process(0.1), "Third cycle returns FAIL");
+		NodeAssert.processStatus(NodeStatus.FAIL, node);
 	}
 }
