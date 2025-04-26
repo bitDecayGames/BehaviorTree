@@ -1,0 +1,40 @@
+## JavaScript
+--next
+-main TestMain
+-lib munit
+-lib hamcrest
+-cp .
+
+-cp test
+-js build/js_test.js
+
+## Neko
+--next
+-main TestMain
+-lib munit
+-lib hamcrest
+-cp .
+
+-cp test
+-neko build/neko_test.n
+
+## CPP
+--next
+-main TestMain
+-lib munit
+-lib hamcrest
+-cp .
+
+-cp test
+#-D HXCPP_M64
+-cpp build/cpp_test
+
+## HashLink
+--next
+-main TestMain
+-lib munit
+-lib hamcrest
+-cp .
+
+-cp test
+-hl build/hl_test.hl
