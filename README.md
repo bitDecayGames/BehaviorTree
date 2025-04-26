@@ -13,3 +13,11 @@ Behavior trees are composed of Nodes. There are 3 primary kinds of nodes:
 
 ### Debugging
 The `-D btree` compilation flag can be used to enable various logging.
+
+### Testing
+
+Install test deps off of the github master commit
+```
+haxelib git munit https://github.com/massiveinteractive/MassiveUnit.git master src
+haxelib git hamcrest https://github.com/mikestead/hamcrest-haxe.git master src
+```

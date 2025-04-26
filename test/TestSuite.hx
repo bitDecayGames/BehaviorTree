@@ -1,5 +1,6 @@
 import massive.munit.TestSuite;
 
+import bitdecay.behavior.tree.composite.ParallelTest;
 
 /**
  * Auto generated Test Suite for MassiveUnit.
@@ -11,5 +12,6 @@ class TestSuite extends massive.munit.TestSuite
 	{
 		super();
 
+		add(bitdecay.behavior.tree.composite.ParallelTest);
 	}
 }
