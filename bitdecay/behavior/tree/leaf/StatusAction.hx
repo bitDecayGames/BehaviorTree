@@ -24,6 +24,6 @@ class StatusAction extends LeafNode {
     }
 
 	override function getDetail():Array<String> {
-        return [Std.string(cb)];
+        return ['name: ${cb.name}', 'file: ${cb.file}:${cb.line}'];
     }
 }
