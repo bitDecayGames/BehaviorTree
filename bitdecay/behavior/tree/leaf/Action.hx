@@ -27,6 +27,10 @@ class Action extends LeafNode {
     }
 
 	override function getDetail():Array<String> {
-        return ['name: ${name}', 'file: ${cb.file}:${cb.line}${cb.name != "unknown" ? (" - " + cb.name) : ""}'];
+        var detailName = name;
+        if (detailName.length == 0) {
+            detailName = cb.name;
+        }
+        return ['name: ${detailName}', 'file: ${cb.file}:${cb.line}'];
     }
 }
