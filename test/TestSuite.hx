@@ -13,6 +13,7 @@ import bitdecay.behavior.tree.decorator.TimeLimitTest;
 import bitdecay.behavior.tree.leaf.ActionTest;
 import bitdecay.behavior.tree.leaf.FailTest;
 import bitdecay.behavior.tree.leaf.IsVarNullTest;
+import bitdecay.behavior.tree.leaf.RemoveVariableTest;
 import bitdecay.behavior.tree.leaf.SetVariableTest;
 import bitdecay.behavior.tree.leaf.StatusActionTest;
 import bitdecay.behavior.tree.leaf.SuccessTest;
@@ -41,6 +42,7 @@ class TestSuite extends massive.munit.TestSuite
 		add(bitdecay.behavior.tree.leaf.ActionTest);
 		add(bitdecay.behavior.tree.leaf.FailTest);
 		add(bitdecay.behavior.tree.leaf.IsVarNullTest);
+		add(bitdecay.behavior.tree.leaf.RemoveVariableTest);
 		add(bitdecay.behavior.tree.leaf.SetVariableTest);
 		add(bitdecay.behavior.tree.leaf.StatusActionTest);
 		add(bitdecay.behavior.tree.leaf.SuccessTest);

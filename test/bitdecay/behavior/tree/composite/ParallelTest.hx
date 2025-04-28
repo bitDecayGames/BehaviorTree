@@ -1,7 +1,5 @@
 package bitdecay.behavior.tree.composite;
 
-import bitdecay.behavior.tree.BTreeMacros.BTProcessFunc;
-import bitdecay.behavior.tree.leaf.LeafNode;
 import bitdecay.behavior.tree.context.BTContext;
 import massive.munit.Assert;
 

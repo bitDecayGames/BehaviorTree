@@ -1,17 +1,22 @@
 package bitdecay.behavior.tree.leaf;
 
-import bitdecay.behavior.tree.leaf.LeafNode;
+import bitdecay.behavior.tree.BT;
 import bitdecay.behavior.tree.NodeStatus;
-import bitdecay.behavior.tree.BTreeMacros;
+import bitdecay.behavior.tree.leaf.LeafNode;
 
 /**
  * Utility node that runs the provided callback and returns
  * its node status
 **/
 class StatusAction extends LeafNode {
-	var cb:BTProcessFunc;
+    var name:String;
+	var cb:WrappedProcessFunc;
 
-    public function new(cb:BTProcessFunc) {
+    /**
+     * @param name optional identifier for help if using anonymous functions
+    **/
+    public function new(name:String = "", cb:WrappedProcessFunc) {
+        this.name = name;
 		this.cb = cb;
 	}
 
@@ -20,10 +25,14 @@ class StatusAction extends LeafNode {
     }
 
 	override public function clone():Node {
-        return new StatusAction(cb);
+        return new StatusAction(name, cb);
     }
 
 	override function getDetail():Array<String> {
-        return ['name: ${cb.name}', 'file: ${cb.file}:${cb.line}'];
+        var detailName = name;
+        if (detailName.length == 0) {
+            detailName = cb.name;
+        }
+        return ['name: ${detailName}', 'file: ${cb.file}:${cb.line}'];
     }
 }

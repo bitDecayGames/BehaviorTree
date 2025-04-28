@@ -31,6 +31,12 @@ class BTExecutor {
     public function addPostProcessListener(fn:()->Void) {
         postProcessListeners.push(fn);
     }
+
+    public function dispatchChange(p:Node, c:Node, status:NodeStatus) {
+        for (fn in nodeStatusListeners) {
+            fn(p, c, status);
+        }
+    }
     #end
 
     public function new(root:Node) {
@@ -39,12 +45,6 @@ class BTExecutor {
         }
 
         this.root = root;
-    }
-
-    public function dispatchChange(p:Node, c:Node, status:NodeStatus) {
-        for (fn in nodeStatusListeners) {
-            fn(p, c, status);
-        }
     }
 
     public function init(context:BTContext) {

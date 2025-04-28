@@ -6,13 +6,13 @@ class StatusActionTest {
 	@Test
 	public function testStatusActionIsExecuted() {
 		var count = 3;
-		var node = new StatusAction(BTreeMacros.wrapFn((ctx, delta) -> {
+		var node = new StatusAction(BT.wrapFn((ctx, delta) -> {
 			count--;
 			if (count == 0) {
-				return SUCCESS;
+				return NodeStatus.SUCCESS;
 			}
 
-			return RUNNING;
+			return NodeStatus.RUNNING;
 		}));
 		node.init(new BTContext());
 
