@@ -20,7 +20,7 @@ class BTExecutor {
     private var nodeStatusListeners:Array<(Node, Node, NodeStatus) ->Void> = [];
     private var postProcessListeners:Array<()->Void> = [];
 
-        public function addChangeListener(fn:(Node, Node, NodeStatus)->Void) {
+    public function addChangeListener(fn:(Node, Node, NodeStatus)->Void) {
         nodeStatusListeners.push(fn);
     }
 
