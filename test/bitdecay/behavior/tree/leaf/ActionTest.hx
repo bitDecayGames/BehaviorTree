@@ -7,7 +7,7 @@ class ActionTest {
 	@Test
 	public function testActionIsExecuted() {
 		var test = false;
-		var node = new Action(BTreeMacros.wrapFn((ctx) -> {
+		var node = new Action(BT.wrapFn((ctx) -> {
 			test = true;
 		}));
 		node.init(new BTContext());

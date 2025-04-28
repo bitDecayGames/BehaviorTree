@@ -27,6 +27,10 @@ All nodes within a given tree share a `BTContext` that enables them to share inf
 * The context is passed to the functions of `Action` and `StatusAction` nodes so that any business logic can also access or modify the context
 * Some nodes, such as the `HierarchicalContext` node, allow for more control over how nodes can interact with the context
 
+### Special Notes
+
+The `Action` and `StatusAction` nodes take functions take `WrappedFunc` and `WrappedProcessFunc` parameters respectively. These are special wrapped functions that contain location information to aid in debugging a tree. The `BT.wrapFn()` macro function simplifies this. See the tests for an example of how to use them.
+
 ### Debugging
 The `-D btree` compilation flag can be used to enable various logging.
 

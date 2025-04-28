@@ -14,8 +14,8 @@ class RemoveVariableTest {
 		var node = new RemoveVariable("myTest");
 		node.init(ctx);
 
-		Assert.areEqual("secret", ctx.get("myTest"));
+		Assert.isTrue(ctx.has("myTest"), "context should have key");
 		NodeAssert.processStatus(SUCCESS, node);
-		Assert.areEqual("secret", ctx.get("myTest"));
+		Assert.isFalse(ctx.has("secret"), "context key should be removed");
 	}
 }

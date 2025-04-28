@@ -21,12 +21,19 @@ class Repeater extends DecoratorNode {
         count = 0;
     }
 
-    override public function doProcess(raw:NodeStatus):NodeStatus {
-        if (lastStatus != RUNNING && lastStatus != UNKNOWN) {
-            child.init(context);
+    override function process(delta:Float):NodeStatus {
+        if (lastStatus != RUNNING) {
+            if (lastStatus != UNKNOWN) {
+                // prevent double-init'ing our first time through
+                child.init(context);
+            }
+            
             count++;
         }
-        
+        return super.process(delta);
+    }
+
+    override public function doProcess(raw:NodeStatus):NodeStatus {
         lastStatus = raw;
         if (raw != RUNNING) {
             raw = switch(type) {
