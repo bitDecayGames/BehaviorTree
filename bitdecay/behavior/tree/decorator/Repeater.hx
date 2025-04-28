@@ -8,7 +8,7 @@ import bitdecay.behavior.tree.context.BTContext;
 class Repeater extends DecoratorNode {
     var type:RepeatType;
     var count:Int;
-    var lastStatus:NodeStatus = null;
+    var lastStatus:NodeStatus = UNKNOWN;
 
     public function new(type:RepeatType, child:Node) {
         super(child);
@@ -17,12 +17,13 @@ class Repeater extends DecoratorNode {
 
     override function init(context:BTContext) {
         super.init(context);
-        lastStatus = null;
+        lastStatus = UNKNOWN;
         count = 0;
     }
 
     override public function doProcess(raw:NodeStatus):NodeStatus {
-        if (lastStatus != RUNNING) {
+        if (lastStatus != RUNNING && lastStatus != UNKNOWN) {
+            child.init(context);
             count++;
         }
         
@@ -35,7 +36,6 @@ class Repeater extends DecoratorNode {
                     if (n > 0 && count == n) {
                         SUCCESS;
                     } else {
-                        child.init(context);
                         RUNNING;
                     }
                 case UNTIL_FAIL(max):
@@ -44,7 +44,6 @@ class Repeater extends DecoratorNode {
                     } else if (max > 0 && count == max) {
                         FAIL;
                     } else {
-                        child.init(context);
                         RUNNING;
                     }
                 case UNTIL_SUCCESS(max):
@@ -53,7 +52,6 @@ class Repeater extends DecoratorNode {
                     } else if (max > 0 && count == max) {
                         FAIL;
                     } else {
-                        child.init(context);
                         RUNNING;
                     }
             }

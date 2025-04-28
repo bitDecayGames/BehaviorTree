@@ -7,15 +7,31 @@ import bitdecay.behavior.tree.context.BTContext;
 **/
 class BTExecutor {
     private var root:Node;
-    private var context:BTContext;
-
+    public var ctx:BTContext;
+    public var status(default, null):NodeStatus = UNKNOWN;
+    
     var pendingAdds:Array<Node> = [];
     var pendingRemoves:Array<Node> = [];
     var persistentProcessNodes:Array<Node> = [];
 
-    var previousChildStatus:NodeStatus = null;
 
+    #if debug
+    private var preProcessListeners:Array<()->Void> = [];
     private var nodeStatusListeners:Array<(Node, Node, NodeStatus) ->Void> = [];
+    private var postProcessListeners:Array<()->Void> = [];
+
+        public function addChangeListener(fn:(Node, Node, NodeStatus)->Void) {
+        nodeStatusListeners.push(fn);
+    }
+
+    public function addPreProcessListener(fn:()->Void) {
+        preProcessListeners.push(fn);
+    }
+
+    public function addPostProcessListener(fn:()->Void) {
+        postProcessListeners.push(fn);
+    }
+    #end
 
     public function new(root:Node) {
         if (root == null) {
@@ -23,10 +39,6 @@ class BTExecutor {
         }
 
         this.root = root;
-    }
-
-    public function addChangeListener(fn:(Node, Node, NodeStatus)->Void) {
-        nodeStatusListeners.push(fn);
     }
 
     public function dispatchChange(p:Node, c:Node, status:NodeStatus) {
@@ -41,50 +53,30 @@ class BTExecutor {
         }
 
         context.executor = this;
-        this.context = context;
+        this.ctx = context;
 
-        previousChildStatus = null;
-
-        root.init(context);
+        status = UNKNOWN;
+        root.init(ctx);
     }
 
-    #if btree
-    var current:String = "";
-    var last:String = "";
-    #end
-
     public function process(delta:Float):NodeStatus {
-        #if btree
-        context.set("debug_path", new Array<String>());
+        #if debug
+        var previousStatus = status;
+        for (fn in preProcessListeners) {
+            fn();
+        }
         #end
 
         var result = root.process(delta);
 
         #if debug
-        if (previousChildStatus != result) {
-            previousChildStatus = result;
-
+        if (previousStatus != result) {
             @:privateAccess
-            context.executor.dispatchChange(null, root, result);
-        }
-        #end
-
-        #if btree
-        var path:Array<String> = context.get("debug_path");
-        for (i in 0...path.length) {
-            path[i] = path[i].split(".").pop();
-        }
-        path.push(context.get("debug_result"));
-        current = path.join(" -> ");
-
-        if (current != last) {
-            trace(current);
-            last = current;
+            ctx.executor.dispatchChange(null, root, result);
         }
 
-        if (context.dirty) {
-            context.dirty = false;
-            trace(context.dump());
+        for (fn in postProcessListeners) {
+            fn();
         }
         #end
 
