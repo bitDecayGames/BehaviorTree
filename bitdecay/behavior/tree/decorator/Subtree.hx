@@ -12,4 +12,8 @@ class Subtree extends DecoratorNode {
 
 		super(subtree);
 	}
+
+	override function getDetail():Array<String> {
+		return ['name: ${name}'];
+	}
 }

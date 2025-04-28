@@ -2,11 +2,14 @@ package bitdecay.behavior.tree;
 
 import bitdecay.behavior.tree.context.BTContext;
 #if macro
-import haxe.macro.Expr;
 import haxe.macro.Context;
+import haxe.macro.Expr;
 #end
 
-class BTreeMacros {
+/**
+ * Various macros/helpers. Name is short to make typing it less annoying
+**/
+class BT {
     /**
      * Wraps a function so that tooling can display information
      * about the function
@@ -20,7 +23,7 @@ class BTreeMacros {
         var name = switch func.expr {
             case EConst(CIdent(id)): id;
             case EField(_, field): field;
-            case _: "unknown";
+            case _: "anonymous";
         }
 
         return macro {
@@ -67,7 +70,7 @@ class BTreeMacros {
 /**
  * A wrapped function so that we can display location information within tooling
 **/
-typedef BTFunc = {
+typedef WrappedFunc = {
     var name:String;
     var file:String;
     var line:Int;
@@ -75,9 +78,9 @@ typedef BTFunc = {
 }
 
 /**
- * A wrapped status-returning function so that we can display location information within tooling
+ * A wrapped time-aware, status-returning function so that we can display location information within tooling
 **/
- typedef BTProcessFunc = {
+ typedef WrappedProcessFunc = {
     var name:String;
     var file:String;
     var line:Int;

@@ -73,6 +73,13 @@ class BTContext {
         contents.set(key, value);
     }
 
+     /**
+     * Attempts to remove `key` from the context and returns true if `key` was removed, false otherwise
+    **/
+    public function remove(key:String):Bool {
+        return contents.remove(key);
+    }
+
     public function dump():String {
         var entries = new Array<String>();
         for (key => value in contents) {
