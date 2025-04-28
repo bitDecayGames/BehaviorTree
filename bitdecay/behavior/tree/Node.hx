@@ -9,7 +9,7 @@ interface Node {
      *   - When the behavior tree is initialized
      *   - Just before the first time the node's process is called
     **/
-    public function init(context:BTContext):Void;
+    public function init(ctx:BTContext):Void;
 
     /**
      * Called each time the node is updated

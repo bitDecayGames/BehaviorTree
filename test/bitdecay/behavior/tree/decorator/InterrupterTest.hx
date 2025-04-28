@@ -23,12 +23,12 @@ class InterrupterTest {
 	@Test
 	public function testInterrupterOnCondition() {
 		var count = 0;
-		var abortOnEleven = () -> {
+		var abortOnEleven = (ctx:BTContext) -> {
 			count++;
 			return count == 11;
 		};
 		var child = TestUtils.getRunningNode(0, RUNNING);
-		var node = new Interrupter(CONDITION(abortOnEleven), child);
+		var node = new Interrupter(CONDITION(BT.wrapFn(abortOnEleven)), child);
 		var ctx = new BTContext();
 		node.init(ctx);
 

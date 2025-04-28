@@ -16,8 +16,8 @@ class Parallel extends CompositeNode {
         this.condition = condition;
     }
 
-    override function init(context:BTContext) {
-        super.init(context);
+    override function init(ctx:BTContext) {
+        super.init(ctx);
         statuses = [for (i in 0...children.length) {
             RUNNING;
         }];
@@ -36,7 +36,7 @@ class Parallel extends CompositeNode {
             if (previousStatuses[i] != statuses[i]) {
                 previousStatuses[i] = statuses[i];
                 @:privateAccess
-                context.executor.dispatchChange(this, children[i], statuses[i]);
+                ctx.executor.dispatchChange(this, children[i], statuses[i]);
             }
             #end
         }
@@ -95,7 +95,7 @@ class Parallel extends CompositeNode {
 
                 #if debug
                 @:privateAccess
-                context.executor.dispatchChange(this, children[i], FAIL);
+                ctx.executor.dispatchChange(this, children[i], FAIL);
                 #end
             }
         }

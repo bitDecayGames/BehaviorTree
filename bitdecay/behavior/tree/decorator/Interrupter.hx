@@ -1,5 +1,6 @@
 package bitdecay.behavior.tree.decorator;
 
+import bitdecay.behavior.tree.BT.WrappedConditionFunc;
 import bitdecay.behavior.tree.context.BTContext;
 
 /**
@@ -14,8 +15,8 @@ class Interrupter extends DecoratorNode {
         this.type = type;
     }
 
-    override function init(context:BTContext) {
-        super.init(context);
+    override function init(ctx:BTContext) {
+        super.init(ctx);
     }
 
     override function process(delta:Float):NodeStatus {
@@ -23,12 +24,12 @@ class Interrupter extends DecoratorNode {
         // our signal already triggered
         switch(type) {
             case KEY_PRESENCE(k):
-                if (context.has(k)) {
+                if (ctx.has(k)) {
                     child.cancel();
                     return FAIL;
                 }
-            case CONDITION(fn):
-                if (fn()) {
+            case CONDITION(cb):
+                if (cb.func(ctx)) {
                     child.cancel();
                     return FAIL;
                 }
@@ -42,7 +43,12 @@ class Interrupter extends DecoratorNode {
     }
 
     override function getDetail():Array<String> {
-        return ['type: ${type}'];
+        switch type {
+            case KEY_PRESENCE(k):
+                return ['type: ${type}'];
+            case CONDITION(cb):
+                return ['type: CONDITION(${cb.name})', 'file: ${cb.file}:${cb.line}'];
+        }
     }
 }
 
@@ -53,7 +59,7 @@ enum InterruptType {
     KEY_PRESENCE(k:String);
 
     /**
-     * Interrupts upon function returning true
+     * Interrupts upon callback returning true
     **/
-    CONDITION(fn:()->Bool);
+    CONDITION(cb:WrappedConditionFunc);
 }

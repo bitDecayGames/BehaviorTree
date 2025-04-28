@@ -21,11 +21,11 @@ class Wait extends LeafNode {
         maxTime = max != null ? max : min;
     }
 
-    override public function init(context:BTContext) {
-        super.init(context);
+    override public function init(ctx:BTContext) {
+        super.init(ctx);
         started = false;
-        var min = TimeHelper.getFloat(context, minTime);
-        var max = TimeHelper.getFloat(context, maxTime);
+        var min = TimeHelper.getFloat(ctx, minTime);
+        var max = TimeHelper.getFloat(ctx, maxTime);
 
         initial = min + Math.random() * (max - min);
         remaining = initial;

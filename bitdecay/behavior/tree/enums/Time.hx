@@ -3,13 +3,13 @@ package bitdecay.behavior.tree.enums;
 import bitdecay.behavior.tree.context.BTContext;
 
 class TimeHelper {
-	public static function getFloat(context:BTContext, wt:Time):Float {
+	public static function getFloat(ctx:BTContext, wt:Time):Float {
 		switch(wt) {
 			case CONST(t):
 				return t;
 			case VAR(name, backup):
-				if (context.hasTyped(name, Float) || context.hasTyped(name, Int)) {
-					return context.getFloat(name);
+				if (ctx.hasTyped(name, Float) || ctx.hasTyped(name, Int)) {
+					return ctx.getFloat(name);
 				}
 	
 				return backup;

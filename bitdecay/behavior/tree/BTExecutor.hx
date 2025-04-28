@@ -47,13 +47,13 @@ class BTExecutor {
         this.root = root;
     }
 
-    public function init(context:BTContext) {
-        if (context == null) {
-			context = new BTContext();
+    public function init(ctx:BTContext) {
+        if (ctx == null) {
+			ctx = new BTContext();
         }
 
-        context.executor = this;
-        this.ctx = context;
+        ctx.executor = this;
+        this.ctx = ctx;
 
         status = UNKNOWN;
         root.init(ctx);

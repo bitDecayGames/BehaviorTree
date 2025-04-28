@@ -20,9 +20,9 @@ class SetVariable extends LeafNode {
 			case CONST(val):
 				val;
 			case FROM_CTX(key):
-				context.get(key);
+				ctx.get(key);
 		}
-		context.set(name, v);
+		ctx.set(name, v);
         return SUCCESS;
     }
 

@@ -22,9 +22,9 @@ class TimeLimit extends DecoratorNode {
         this.limit = limit;
     }
 
-    override function init(context:BTContext) {
-        super.init(context);
-		initial = TimeHelper.getFloat(context, limit);
+    override function init(ctx:BTContext) {
+        super.init(ctx);
+		initial = TimeHelper.getFloat(ctx, limit);
 		remaining = initial;
     }
 

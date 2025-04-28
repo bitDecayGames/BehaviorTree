@@ -20,8 +20,8 @@ class Sequence extends CompositeNode {
         this.type = type;
     }
 
-    override public function init(context:BTContext) {
-        super.init(context);
+    override public function init(ctx:BTContext) {
+        super.init(ctx);
         index = 0;
         previousChildStatus = UNKNOWN;
 
@@ -43,7 +43,7 @@ class Sequence extends CompositeNode {
                 previousChildStatus = result;
     
                 @:privateAccess
-                context.executor.dispatchChange(this, children[index], result);
+                ctx.executor.dispatchChange(this, children[index], result);
             }
             #end
 

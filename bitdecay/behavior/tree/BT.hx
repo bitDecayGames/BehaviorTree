@@ -78,6 +78,16 @@ typedef WrappedFunc = {
 }
 
 /**
+ * A wrapped function returning Bool so that we can display location information within tooling
+**/
+typedef WrappedConditionFunc = {
+    var name:String;
+    var file:String;
+    var line:Int;
+    var func:BTContext->Bool;
+}
+
+/**
  * A wrapped time-aware, status-returning function so that we can display location information within tooling
 **/
  typedef WrappedProcessFunc = {

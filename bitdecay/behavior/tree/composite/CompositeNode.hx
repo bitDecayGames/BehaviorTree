@@ -7,32 +7,32 @@ import bitdecay.behavior.tree.context.BTContext;
 **/
 class CompositeNode implements Node {
     var children:Array<Node>;
-    var context:BTContext;
+    var ctx:BTContext;
 
     public function new(children:Array<Node>) {
         this.children = children;
     }
 
-    public function init(context:BTContext):Void {
-        this.context = context;
+    public function init(ctx:BTContext):Void {
+        this.ctx = ctx;
         for (c in children) {
-            c.init(context);
+            c.init(ctx);
             #if debug
             @:privateAccess
-            context.executor.dispatchChange(this, c, UNKNOWN);
+            ctx.executor.dispatchChange(this, c, UNKNOWN);
             #end
         }
     }
 
     public function process(delta:Float):NodeStatus {
         #if btree
-        cast(context.get("debug_path"), Array<Dynamic>).push(Type.getClassName(Type.getClass(this)));
+        cast(ctx.get("debug_path"), Array<Dynamic>).push(Type.getClassName(Type.getClass(this)));
         #end
 
         var result = doProcess(delta);
 
         #if btree
-        context.set("debug_result", result);
+        ctx.set("debug_result", result);
         #end
 
         return result;

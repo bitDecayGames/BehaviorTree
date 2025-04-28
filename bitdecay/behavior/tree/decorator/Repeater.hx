@@ -15,8 +15,8 @@ class Repeater extends DecoratorNode {
         this.type = type;
     }
 
-    override function init(context:BTContext) {
-        super.init(context);
+    override function init(ctx:BTContext) {
+        super.init(ctx);
         lastStatus = UNKNOWN;
         count = 0;
     }
@@ -25,7 +25,7 @@ class Repeater extends DecoratorNode {
         if (lastStatus != RUNNING) {
             if (lastStatus != UNKNOWN) {
                 // prevent double-init'ing our first time through
-                child.init(context);
+                child.init(ctx);
             }
             
             count++;

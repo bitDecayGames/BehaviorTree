@@ -38,8 +38,8 @@ class Selector extends CompositeNode {
         }
     }
 
-    override function init(context:BTContext) {
-        super.init(context);
+    override function init(ctx:BTContext) {
+        super.init(ctx);
         index = 0;
         previousChildStatus = UNKNOWN;
 
@@ -61,7 +61,7 @@ class Selector extends CompositeNode {
                 previousChildStatus = result;
     
                 @:privateAccess
-                context.executor.dispatchChange(this, children[index], result);
+                ctx.executor.dispatchChange(this, children[index], result);
             }
             #end
 

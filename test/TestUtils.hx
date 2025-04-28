@@ -26,8 +26,8 @@ class StatusFlipNode extends LeafNode {
 		this.resetOnInit = resetOnInit;
 	}
 
-	override function init(context:BTContext) {
-		super.init(context);
+	override function init(ctx:BTContext) {
+		super.init(ctx);
 		if (resetOnInit) {
 			processCount = 0;
 			cancelled = false;

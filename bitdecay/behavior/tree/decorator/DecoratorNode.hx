@@ -7,29 +7,29 @@ import bitdecay.behavior.tree.context.BTContext;
 **/
 class DecoratorNode implements Node {
     var child:Node;
-    var context:BTContext;
+    var ctx:BTContext;
     var previousChildStatus:NodeStatus;
 
     public function new(child:Node) {
         this.child = child;
     }
 
-    public function init(context:BTContext) {
-        this.context = context;
+    public function init(ctx:BTContext) {
+        this.ctx = ctx;
         if (child.init != null) {
-            child.init(context);
+            child.init(ctx);
         }
         previousChildStatus = UNKNOWN;
 
         #if debug
 		@:privateAccess
-		context.executor.dispatchChange(this, child, UNKNOWN);
+		ctx.executor.dispatchChange(this, child, UNKNOWN);
 		#end
     }
 
     public function process(delta:Float):NodeStatus {
         #if btree
-        cast(context.get("debug_path"), Array<Dynamic>).push(Type.getClassName(Type.getClass(this)));
+        cast(ctx.get("debug_path"), Array<Dynamic>).push(Type.getClassName(Type.getClass(this)));
         #end
 
         var rawStatus = child.process(delta);
@@ -40,7 +40,7 @@ class DecoratorNode implements Node {
             previousChildStatus = rawStatus;
 
             @:privateAccess
-            context.executor.dispatchChange(this, child, rawStatus);
+            ctx.executor.dispatchChange(this, child, rawStatus);
         }
 
         if (result == SUCCESS || result == FAIL) {
@@ -50,7 +50,7 @@ class DecoratorNode implements Node {
         #end
 
         #if btree
-        context.set("debug_result", result);
+        ctx.set("debug_result", result);
         #end
 
         return result;
