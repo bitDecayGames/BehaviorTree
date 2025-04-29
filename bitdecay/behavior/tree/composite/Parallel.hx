@@ -3,47 +3,35 @@ package bitdecay.behavior.tree.composite;
 import bitdecay.behavior.tree.context.BTContext;
 
 /**
- * Runs all child nodes in parallel until the provided Condition
+ * Runs all child nodes in parallel until the provided EndCondition
  * is met and returns the appropriate result
 **/
 class Parallel extends CompositeNode {
-    var condition:Condition;
-    var statuses:Array<NodeStatus>;
-    var previousStatuses:Array<NodeStatus>;
+    var condition:EndCondition;
 
-    public function new(condition:Condition, children:Array<Node>) {
-        super(children);
+    public function new(condition:EndCondition, children:Array<Node>) {
+        super(IN_ORDER, children);
         this.condition = condition;
     }
 
-    override function init(ctx:BTContext) {
-        super.init(ctx);
-        statuses = [for (i in 0...children.length) {
-            RUNNING;
-        }];
-        previousStatuses = [for (i in 0...children.length) {
-            null;
-        }];
-    }
-
     override public function doProcess(delta:Float):NodeStatus {
+        var status:NodeStatus = UNKNOWN;
         for (i in 0...children.length) {
-            if (statuses[i] == RUNNING) {
-                statuses[i] = children[i].process(delta);
-            }
+            status = children[i].process(delta);
 
             #if debug
-            if (previousStatuses[i] != statuses[i]) {
-                previousStatuses[i] = statuses[i];
+            if (lastStatus[i] != status) {
                 @:privateAccess
                 ctx.executor.dispatchChange(this, children[i], statuses[i]);
             }
             #end
+
+            lastStatus[i] = status;
         }
 
         var successes = 0;
         var failures = 0;
-		for (s in statuses) {
+		for (s in lastStatus) {
             successes += s == SUCCESS ? 1 : 0;
             failures += s == FAIL ? 1 : 0;
 		}
@@ -89,8 +77,8 @@ class Parallel extends CompositeNode {
     }
 
     private function cancelIncomplete():Void {
-        for (i in 0...statuses.length) {
-            if (statuses[i] == RUNNING) {
+        for (i in 0...lastStatus.length) {
+            if (lastStatus[i] == RUNNING) {
                 children[i].cancel();
 
                 #if debug
@@ -106,7 +94,7 @@ class Parallel extends CompositeNode {
     }
 }
 
-enum Condition {
+enum EndCondition {
     FAIL_ON_FIRST_FAIL;
     SUCCEED_ON_FIRST_SUCCESS;
     UNTIL_N_COMPLETE(n:Int);

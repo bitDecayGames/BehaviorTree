@@ -7,10 +7,12 @@ import bitdecay.behavior.tree.context.BTContext;
 **/
 class CompositeNode implements Node {
     var children:Array<Node>;
+    var type:ChildOrder;
+    var order:Array<Int>;
     var lastStatus:Array<NodeStatus>;
     var ctx:BTContext;
 
-    public function new(children:Array<Node>) {
+    public function new(order:ChildOrder, children:Array<Node>) {
         this.children = children;
     }
 
@@ -24,6 +26,13 @@ class CompositeNode implements Node {
             @:privateAccess
             ctx.executor.dispatchChange(this, c, UNKNOWN);
             #end
+        }
+        
+        switch type {
+            case IN_ORDER:
+                order = [for (i in 0...children.length) i];
+            case RANDOM(weights):
+                order = Tools.randomIndexOrderFromWeights(weights);
         }
     }
 
@@ -58,4 +67,12 @@ class CompositeNode implements Node {
     function getDetail():Array<String> {
         return [];
     }
+}
+
+enum ChildOrder {
+    // Processes nodes in order
+    IN_ORDER;
+
+    // Process nodes in random order
+    RANDOM(weights:Array<Float>);
 }

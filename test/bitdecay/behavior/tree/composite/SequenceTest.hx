@@ -5,29 +5,25 @@ import bitdecay.behavior.tree.context.BTContext;
 
 class SequenceTest {
 	@Test
-	public function testInOrderFailOnFail() {
-		var cycle = 0;
-		var first = TestUtils.getRunningNode(1, SUCCESS);
-		var second = TestUtils.getRunningNode(1, SUCCESS);
-		var third = TestUtils.getRunningNode(1, FAIL);
+	public function testInOrderFailOnFirstFail() {
+		var successOne = TestUtils.getRunningNode(1, SUCCESS);
+		var successTwo = TestUtils.getRunningNode(1, SUCCESS);
+		var fail = TestUtils.getRunningNode(1, FAIL);
 		var node = new Sequence(IN_ORDER, [
-			first,
-			second,
-			third,
+			fail,
+			successOne,
+			successTwo,
 		]);
 		node.init(new BTContext());
 
-		cycle++;
-		NodeAssert.processStatus(RUNNING, node);
-		cycle++;
-		NodeAssert.processStatus(RUNNING, node);
-		cycle++;
 		NodeAssert.processStatus(FAIL, node);
+		NodeAssert.processCount(1, fail);
+		NodeAssert.processCount(0, successOne);
+		NodeAssert.processCount(0, successTwo);
 	}
 
 	@Test
 	public function testInOrderAllSucceed() {
-		var cycle = 0;
 		var first = TestUtils.getRunningNode(1, SUCCESS);
 		var second = TestUtils.getRunningNode(1, SUCCESS);
 		var third = TestUtils.getRunningNode(1, SUCCESS);
@@ -38,11 +34,9 @@ class SequenceTest {
 		]);
 		node.init(new BTContext());
 
-		cycle++;
-		NodeAssert.processStatus(RUNNING, node);
-		cycle++;
-		NodeAssert.processStatus(RUNNING, node);
-		cycle++;
 		NodeAssert.processStatus(SUCCESS, node);
+		NodeAssert.processCount(1, first);
+		NodeAssert.processCount(1, second);
+		NodeAssert.processCount(1, third);
 	}
 }

@@ -9,10 +9,6 @@ class ParallelTest {
 		var cycle = 0;
 		var cycleTwo = TestUtils.getRunningNode(2, FAIL);
 		var runner = TestUtils.getRunningNode(0, RUNNING);
-		var node = new Parallel(SUCCEED_ON_FIRST_SUCCESS, [
-			runner,
-			cycleTwo
-		]);
 		var node = new Parallel(FAIL_ON_FIRST_FAIL, [
 			cycleTwo,
 			runner

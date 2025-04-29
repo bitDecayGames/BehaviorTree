@@ -5,45 +5,56 @@ import massive.munit.Assert;
 
 class SelectorTest {
 	@Test
-	public function testInOrder() {
-		var cycle = 0;
-		var first = TestUtils.getRunningNode(1, FAIL);
-		var second = TestUtils.getRunningNode(1, FAIL);
-		var third = TestUtils.getRunningNode(1, SUCCESS);
+	public function testInOrderAllFail() {
+		var failOne = TestUtils.getRunningNode(1, FAIL);
+		var failTwo = TestUtils.getRunningNode(1, FAIL);
+		var failThree = TestUtils.getRunningNode(1, FAIL);
 		var node = new Selector(IN_ORDER, [
-			first,
-			second,
-			third,
+			failOne,
+			failTwo,
+			failThree,
 		]);
 		node.init(new BTContext());
 
-		cycle++;
-		NodeAssert.processStatus(RUNNING, node);
-		cycle++;
-		NodeAssert.processStatus(RUNNING, node);
-		cycle++;
-		NodeAssert.processStatus(SUCCESS, node);
-
+		NodeAssert.processStatus(FAIL, node);
+		NodeAssert.processCount(1, failOne);
+		NodeAssert.processCount(1, failTwo);
+		NodeAssert.processCount(1, failThree);
 	}
 
 	@Test
-	public function testInOrderFailIfNoSuccess() {
-		var cycle = 0;
-		var first = TestUtils.getRunningNode(1, FAIL);
-		var second = TestUtils.getRunningNode(1, FAIL);
-		var third = TestUtils.getRunningNode(1, FAIL);
-		var node = new Selector(RANDOM([.33, .33, .33]), [
-			first,
-			second,
-			third,
+	public function testInOrderLastSucceed() {
+		var failOne = TestUtils.getRunningNode(1, FAIL);
+		var failTwo = TestUtils.getRunningNode(1, FAIL);
+		var success = TestUtils.getRunningNode(1, SUCCESS);
+		var node = new Selector(IN_ORDER, [
+			failOne,
+			failTwo,
+			success,
 		]);
 		node.init(new BTContext());
 
-		cycle++;
-		NodeAssert.processStatus(RUNNING, node);
-		cycle++;
-		NodeAssert.processStatus(RUNNING, node);
-		cycle++;
-		NodeAssert.processStatus(FAIL, node);
+		NodeAssert.processStatus(SUCCESS, node);
+		NodeAssert.processCount(1, failOne);
+		NodeAssert.processCount(1, failTwo);
+		NodeAssert.processCount(1, success);
+	}
+
+	@Test
+	public function testInOrderFirstSucceed() {
+		var failOne = TestUtils.getRunningNode(1, FAIL);
+		var failTwo = TestUtils.getRunningNode(1, FAIL);
+		var success = TestUtils.getRunningNode(1, SUCCESS);
+		var node = new Selector(IN_ORDER, [
+			success,
+			failOne,
+			failTwo,
+		]);
+		node.init(new BTContext());
+
+		NodeAssert.processStatus(SUCCESS, node);
+		NodeAssert.processCount(1, success);
+		NodeAssert.processCount(0, failOne);
+		NodeAssert.processCount(0, failTwo);
 	}
 }

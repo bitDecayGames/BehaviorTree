@@ -1,5 +1,6 @@
 package bitdecay.behavior.tree.composite;
 
+import bitdecay.behavior.tree.composite.CompositeNode.ChildOrder;
 import bitdecay.behavior.tree.context.BTContext;
 
 /**
@@ -9,23 +10,8 @@ import bitdecay.behavior.tree.context.BTContext;
  * Logically, this is similar to the AND operation
  **/
 class Sequence extends CompositeNode {
-    var type:SequenceType;
-    var order:Array<Int>;
-
-    public function new(type:SequenceType, children:Array<Node>) {
-        super(children);
-        this.type = type;
-    }
-
-    override public function init(ctx:BTContext) {
-        super.init(ctx);
-
-        switch type {
-            case IN_ORDER:
-                order = [for (i in 0...children.length) i];
-            case RANDOM(weights):
-                order = Tools.randomIndexOrderFromWeights(weights);
-        }
+    public function new(type:ChildOrder, children:Array<Node>) {
+        super(type, children);
     }
 
     override public function doProcess(delta:Float):NodeStatus {
@@ -40,12 +26,11 @@ class Sequence extends CompositeNode {
             
             #if debug
             if (lastStatus[index] != result) {
-                lastStatus[index] = result;
-    
                 @:privateAccess
                 ctx.executor.dispatchChange(this, child, result);
             }
             #end
+            lastStatus[index] = result;
 
             if (result == RUNNING) {
                 return result;
