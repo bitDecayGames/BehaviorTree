@@ -22,7 +22,7 @@ class Parallel extends CompositeNode {
             #if debug
             if (lastStatus[i] != status) {
                 @:privateAccess
-                ctx.executor.dispatchChange(this, children[i], statuses[i]);
+                ctx.executor.dispatchChange(this, children[i], status);
             }
             #end
 
