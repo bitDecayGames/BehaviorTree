@@ -7,6 +7,7 @@ import bitdecay.behavior.tree.context.BTContext;
 **/
 class CompositeNode implements Node {
     var children:Array<Node>;
+    var lastStatus:Array<NodeStatus>;
     var ctx:BTContext;
 
     public function new(children:Array<Node>) {
@@ -15,8 +16,10 @@ class CompositeNode implements Node {
 
     public function init(ctx:BTContext):Void {
         this.ctx = ctx;
+        lastStatus = [];
         for (c in children) {
             c.init(ctx);
+            lastStatus.push(UNKNOWN);
             #if debug
             @:privateAccess
             ctx.executor.dispatchChange(this, c, UNKNOWN);

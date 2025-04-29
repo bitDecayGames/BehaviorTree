@@ -10,10 +10,7 @@ import bitdecay.behavior.tree.context.BTContext;
  **/
 class Sequence extends CompositeNode {
     var type:SequenceType;
-    var index:Int = 0;
     var order:Array<Int>;
-
-    var previousChildStatus:NodeStatus;
 
     public function new(type:SequenceType, children:Array<Node>) {
         super(children);
@@ -22,8 +19,6 @@ class Sequence extends CompositeNode {
 
     override public function init(ctx:BTContext) {
         super.init(ctx);
-        index = 0;
-        previousChildStatus = UNKNOWN;
 
         switch type {
             case IN_ORDER:
@@ -34,16 +29,21 @@ class Sequence extends CompositeNode {
     }
 
     override public function doProcess(delta:Float):NodeStatus {
-        var result = NodeStatus.FAIL;
-        while (index < children.length) {
-            result = children[order[index]].process(delta);
+        var index:Int;
+        var child:Node;
+        var result:NodeStatus = UNKNOWN;
+        for (i in 0...children.length) {
+            index = order[i];
+            child = children[index];
+            result = child.process(delta);
 
+            
             #if debug
-            if (previousChildStatus != result) {
-                previousChildStatus = result;
+            if (lastStatus[index] != result) {
+                lastStatus[index] = result;
     
                 @:privateAccess
-                ctx.executor.dispatchChange(this, children[index], result);
+                ctx.executor.dispatchChange(this, child, result);
             }
             #end
 
@@ -51,12 +51,6 @@ class Sequence extends CompositeNode {
                 return result;
             } else if (result == FAIL) {
                 return result;
-            } else {
-                index++;
-                if (index < children.length) {
-                    previousChildStatus = UNKNOWN;
-                    return RUNNING;
-                }
             }
         }
 

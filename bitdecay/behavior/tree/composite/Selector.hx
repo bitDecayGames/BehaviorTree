@@ -10,11 +10,9 @@ import bitdecay.behavior.tree.context.BTContext;
  * Logically, this is similar to the OR operation
  **/
 class Selector extends CompositeNode {
-    var index:Int = 0;
+    // var index:Int = 0;
     var type:SelectorType;
     var order:Array<Int>;
-
-    var previousChildStatus:NodeStatus;
 
     public function new(type:SelectorType, children:Array<Node>) {
         super(children);
@@ -40,8 +38,6 @@ class Selector extends CompositeNode {
 
     override function init(ctx:BTContext) {
         super.init(ctx);
-        index = 0;
-        previousChildStatus = UNKNOWN;
 
         switch type {
             case IN_ORDER:
@@ -52,16 +48,47 @@ class Selector extends CompositeNode {
     }
 
     override public function doProcess(delta:Float):NodeStatus {
-        var result = NodeStatus.FAIL;
-        if (index < children.length) {
-            result = children[order[index]].process(delta);
+        // var result = NodeStatus.FAIL;
+        // if (index < children.length) {
+        //     result = children[order[index]].process(delta);
 
+        //     #if debug
+        //     if (previousChildStatus != result) {
+        //         previousChildStatus = result;
+    
+        //         @:privateAccess
+        //         ctx.executor.dispatchChange(this, children[index], result);
+        //     }
+        //     #end
+
+        //     if (result == RUNNING) {
+        //         return result;
+        //     } else if (result == SUCCESS) {
+        //         return result;
+        //     }
+
+        //     index++;
+        //     if (index < children.length) {
+        //         previousChildStatus = UNKNOWN;
+        //         return RUNNING;
+        //     }
+        // }
+
+        var index:Int;
+        var child:Node;
+        var result:NodeStatus = UNKNOWN;
+        for (i in 0...children.length) {
+            index = order[i];
+            child = children[index];
+            result = child.process(delta);
+
+            
             #if debug
-            if (previousChildStatus != result) {
-                previousChildStatus = result;
+            if (lastStatus[index] != result) {
+                lastStatus[index] = result;
     
                 @:privateAccess
-                ctx.executor.dispatchChange(this, children[index], result);
+                ctx.executor.dispatchChange(this, child, result);
             }
             #end
 
@@ -69,12 +96,6 @@ class Selector extends CompositeNode {
                 return result;
             } else if (result == SUCCESS) {
                 return result;
-            }
-
-            index++;
-            if (index < children.length) {
-                previousChildStatus = UNKNOWN;
-                return RUNNING;
             }
         }
 
