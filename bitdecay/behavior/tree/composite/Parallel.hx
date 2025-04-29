@@ -14,7 +14,7 @@ class Parallel extends CompositeNode {
         this.condition = condition;
     }
 
-    override public function doProcess(delta:Float):NodeStatus {
+    override public function process(delta:Float):NodeStatus {
         var status:NodeStatus = UNKNOWN;
         for (i in 0...children.length) {
             status = children[i].process(delta);

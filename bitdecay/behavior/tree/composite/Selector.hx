@@ -32,7 +32,7 @@ class Selector extends CompositeNode {
         }
     }
 
-    override public function doProcess(delta:Float):NodeStatus {
+    override public function process(delta:Float):NodeStatus {
         var index:Int;
         var child:Node;
         var result:NodeStatus = UNKNOWN;

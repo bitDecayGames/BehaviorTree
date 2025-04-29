@@ -8,7 +8,10 @@ import bitdecay.behavior.tree.context.BTContext;
 class DecoratorNode implements Node {
     var child:Node;
     var ctx:BTContext;
+
+    #if debug
     var previousChildStatus:NodeStatus;
+    #end
 
     public function new(child:Node) {
         this.child = child;
@@ -19,19 +22,16 @@ class DecoratorNode implements Node {
         if (child.init != null) {
             child.init(ctx);
         }
-        previousChildStatus = UNKNOWN;
 
         #if debug
+        previousChildStatus = UNKNOWN;
+
 		@:privateAccess
 		ctx.executor.dispatchChange(this, child, UNKNOWN);
 		#end
     }
 
     public function process(delta:Float):NodeStatus {
-        #if btree
-        cast(ctx.get("debug_path"), Array<Dynamic>).push(Type.getClassName(Type.getClass(this)));
-        #end
-
         var rawStatus = child.process(delta);
         var result = doProcess(rawStatus);
 
@@ -47,10 +47,6 @@ class DecoratorNode implements Node {
             // we finished, so prep ourselves for future iterations
             previousChildStatus = UNKNOWN;
         }
-        #end
-
-        #if btree
-        ctx.set("debug_result", result);
         #end
 
         return result;

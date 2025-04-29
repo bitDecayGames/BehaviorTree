@@ -21,7 +21,6 @@ class HierarchicalContext extends DecoratorNode {
         if (child.init != null) {
             child.init(subContext);
         }
-        previousChildStatus = null;
 	}
 
 	override public function clone():Node {

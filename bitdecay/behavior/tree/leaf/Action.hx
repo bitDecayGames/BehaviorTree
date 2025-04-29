@@ -17,7 +17,7 @@ class Action extends LeafNode {
 		this.cb = cb;
 	}
 
-    override public function doProcess(delta:Float):NodeStatus {
+    override public function process(delta:Float):NodeStatus {
 		cb.func(ctx);
         return SUCCESS;
     }

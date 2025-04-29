@@ -65,13 +65,6 @@ class BTContext {
      * Sets a key/value pair into the context
     **/
     public function set(key:String, value:Dynamic) {
-
-        #if btree
-        if (!StringTools.startsWith(key, "debug") && (!contents.exists(key) || contents.get(key) != value)) {
-            trace('key ${key}: ${contents.get(key)} -> ${value}');
-        }
-        #end
-
         #if debug
         dirty = true;
         #end

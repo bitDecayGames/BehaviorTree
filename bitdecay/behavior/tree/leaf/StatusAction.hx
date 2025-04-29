@@ -20,7 +20,7 @@ class StatusAction extends LeafNode {
 		this.cb = cb;
 	}
 
-    override public function doProcess(delta:Float):NodeStatus {
+    override public function process(delta:Float):NodeStatus {
 		return cb.func(ctx, delta);
     }
 

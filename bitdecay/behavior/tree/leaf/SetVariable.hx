@@ -15,7 +15,7 @@ class SetVariable extends LeafNode {
 		this.value = value;
 	}
 
-    override public function doProcess(delta:Float):NodeStatus {
+    override public function process(delta:Float):NodeStatus {
 		var v = switch(value) {
 			case CONST(val):
 				val;

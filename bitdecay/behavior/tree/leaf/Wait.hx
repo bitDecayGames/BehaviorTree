@@ -31,7 +31,7 @@ class Wait extends LeafNode {
         remaining = initial;
     }
 
-    override public function doProcess(delta:Float):NodeStatus {
+    override public function process(delta:Float):NodeStatus {
         remaining -= delta;
 
         if (remaining <= 0) {

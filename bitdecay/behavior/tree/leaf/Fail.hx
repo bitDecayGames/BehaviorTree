@@ -9,7 +9,7 @@ import bitdecay.behavior.tree.NodeStatus;
 class Fail extends LeafNode {
     public function new() {}
 
-    override public function doProcess(delta:Float):NodeStatus {
+    override public function process(delta:Float):NodeStatus {
         return FAIL;
     }
 

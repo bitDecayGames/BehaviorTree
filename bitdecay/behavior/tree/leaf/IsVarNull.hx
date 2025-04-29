@@ -14,7 +14,7 @@ class IsVarNull extends LeafNode {
 		this.name = name;
 	}
 
-    override public function doProcess(delta:Float):NodeStatus {
+    override public function process(delta:Float):NodeStatus {
 		if (!ctx.has(name) || ctx.get(name) == null) {
 			return SUCCESS;
 		}

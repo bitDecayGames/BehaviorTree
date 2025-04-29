@@ -13,21 +13,7 @@ class LeafNode implements Node {
     }
 
     public function process(delta:Float):NodeStatus {
-        #if btree
-        cast(ctx.get("debug_path"), Array<Dynamic>).push(Type.getClassName(Type.getClass(this)));
-        #end
-
-        var result = doProcess(delta);
-
-        #if btree
-        ctx.set("debug_result", result);
-        #end
-
-        return result;
-    }
-
-    public function doProcess(delta:Float):NodeStatus {
-        return FAIL;
+        throw 'process() must be implemented';
     }
 
     public function cancel():Void {}

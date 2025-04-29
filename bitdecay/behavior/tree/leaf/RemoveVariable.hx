@@ -13,7 +13,7 @@ class RemoveVariable extends LeafNode {
 		this.name = name;
 	}
 
-    override public function doProcess(delta:Float):NodeStatus {
+    override public function process(delta:Float):NodeStatus {
 		ctx.remove(name);
         return SUCCESS;
     }
