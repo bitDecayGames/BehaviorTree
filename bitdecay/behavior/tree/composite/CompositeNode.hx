@@ -14,6 +14,7 @@ class CompositeNode implements Node {
 
     public function new(order:ChildOrder, children:Array<Node>) {
         this.children = children;
+        type = order;
     }
 
     public function init(ctx:BTContext):Void {
