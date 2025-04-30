@@ -41,7 +41,24 @@ class CompositeNode implements Node {
         throw 'process() must be implemented';
     }
 
-    public function cancel():Void {}
+    public function cancel():Void {
+        cancelIncomplete();
+    }
+
+    private function cancelIncomplete(after:Int = -1):Void {
+        var start = after != -1 ? after + 1 : 0;
+        for (i in start...lastStatus.length) {
+            if (lastStatus[i] == RUNNING) {
+                children[i].cancel();
+                lastStatus[i] = UNKNOWN;
+
+                #if debug
+                @:privateAccess
+                ctx.executor.dispatchChange(this, children[i], FAIL);
+                #end
+            }
+        }
+    }
 
     public function clone():Node {
         throw 'clone() must be implemented';

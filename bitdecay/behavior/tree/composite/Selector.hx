@@ -54,6 +54,7 @@ class Selector extends CompositeNode {
             if (result == RUNNING) {
                 return result;
             } else if (result == SUCCESS) {
+                cancelIncomplete();
                 return result;
             }
         }

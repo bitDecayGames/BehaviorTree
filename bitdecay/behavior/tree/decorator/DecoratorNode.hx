@@ -56,7 +56,13 @@ class DecoratorNode implements Node {
         return raw;
     }
 
-    public function cancel():Void {}
+    public function cancel():Void {
+        child.cancel();
+        #if debug
+        @:privateAccess
+        ctx.executor.dispatchChange(this, child, UNKNOWN);
+        #end
+    }
 
     public function clone():Node {
         throw 'clone() must be implemented';

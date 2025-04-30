@@ -76,19 +76,6 @@ class Parallel extends CompositeNode {
         return new Parallel(condition, [for (node in children) node.clone()]);
     }
 
-    private function cancelIncomplete():Void {
-        for (i in 0...lastStatus.length) {
-            if (lastStatus[i] == RUNNING) {
-                children[i].cancel();
-
-                #if debug
-                @:privateAccess
-                ctx.executor.dispatchChange(this, children[i], FAIL);
-                #end
-            }
-        }
-    }
-
     override function getDetail():Array<String> {
         return ['condition: ${condition}'];
     }

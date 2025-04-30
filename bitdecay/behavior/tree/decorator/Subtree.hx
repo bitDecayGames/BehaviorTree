@@ -13,6 +13,10 @@ class Subtree extends DecoratorNode {
 		super(subtree);
 	}
 
+	override function clone():Node {
+		return new Subtree(name);
+	}
+
 	override function getDetail():Array<String> {
 		return ['name: ${name}'];
 	}

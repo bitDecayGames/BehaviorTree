@@ -33,8 +33,10 @@ class Sequence extends CompositeNode {
             lastStatus[index] = result;
 
             if (result == RUNNING) {
+                cancelIncomplete(i);
                 return result;
             } else if (result == FAIL) {
+                cancelIncomplete();
                 return result;
             }
         }
