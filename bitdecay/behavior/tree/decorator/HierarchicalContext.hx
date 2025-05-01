@@ -14,8 +14,8 @@ import bitdecay.behavior.tree.decorator.DecoratorNode;
 class HierarchicalContext extends DecoratorNode {
 	var subContext:FallbackContext;
 
-	public function new(child:Node) {
-		super(child);
+	public function new(child:Node, ?name:String = null) {
+		super(child, name);
 		subContext = new FallbackContext();
 	}
 
@@ -28,6 +28,6 @@ class HierarchicalContext extends DecoratorNode {
 	}
 
 	override public function clone():Node {
-        return new HierarchicalContext(child.clone());
+        return new HierarchicalContext(child.clone(), name);
     }
 }

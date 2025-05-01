@@ -10,8 +10,8 @@ import bitdecay.behavior.tree.context.BTContext;
  * Logically, this is similar to the AND operation
  **/
 class Sequence extends CompositeNode {
-    public function new(type:ChildOrder, children:Array<Node>) {
-        super(type, children);
+    public function new(type:ChildOrder, children:Array<Node>, ?name:String = null) {
+        super(type, children, name);
     }
 
     override public function process(delta:Float):NodeStatus {
@@ -51,7 +51,7 @@ class Sequence extends CompositeNode {
     }
 
     override public function clone():Node {
-        return new Sequence(type, [for (node in children) node.clone()]);
+        return new Sequence(type, [for (node in children) node.clone()], name);
     }
 }
 

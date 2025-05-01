@@ -8,6 +8,10 @@ import bitdecay.behavior.tree.NodeStatus;
  * completion status
 **/
 class Succeeder extends DecoratorNode {
+    public function new(child:Node, ?name:String = null) {
+		super (child, name);
+	}
+    
     override public function doProcess(raw:NodeStatus):NodeStatus {
         if (raw == RUNNING) {
             return RUNNING;
@@ -16,6 +20,6 @@ class Succeeder extends DecoratorNode {
     }
 
     override public function clone():Node {
-        return new Succeeder(child.clone());
+        return new Succeeder(child.clone(), name);
     }
 }

@@ -14,12 +14,13 @@ class Shorthand {
 	 * @param condition The condition to cause the interrupt when true
 	 * @param child     The node to run while interrupt
 	**/
-	public static function interrupter(name:String, condition:Condition, child:Node) {
+	public static function interrupter(condition:Condition, child:Node, ?name:String = null) {
+		var formatted = '${name == null ? "" : name}${name == null ? "" : "("}interrupter${name == null ? "" : ")"}';
 		var node = new Sequence(IN_ORDER, [
-			new Inverter(condition),
+			new Inverter(condition, formatted),
 			child
 		]);
-		node.name = '${name}(interrupter)';
+		node.name = formatted;
 		return node;
 	}
 }

@@ -11,8 +11,8 @@ import bitdecay.behavior.tree.context.BTContext;
  * Logically, this is similar to the OR operation
  **/
 class Fallback extends CompositeNode {
-    public function new(type:ChildOrder, children:Array<Node>) {
-        super(type, children);
+    public function new(type:ChildOrder, children:Array<Node>, ?name:String = null) {
+        super(type, children, name);
         switch type {
             case IN_ORDER:
             case RANDOM(weights):
@@ -64,7 +64,7 @@ class Fallback extends CompositeNode {
     }
 
     override public function clone():Node {
-        return new Fallback(type, [for (node in children) node.clone()]);
+        return new Fallback(type, [for (node in children) node.clone()], name);
     }
 
     override function getDetail():Array<String> {

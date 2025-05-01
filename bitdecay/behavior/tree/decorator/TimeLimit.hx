@@ -1,9 +1,9 @@
 package bitdecay.behavior.tree.decorator;
 
-import bitdecay.behavior.tree.enums.Time;
+import bitdecay.behavior.tree.NodeStatus;
 import bitdecay.behavior.tree.context.BTContext;
 import bitdecay.behavior.tree.decorator.DecoratorNode;
-import bitdecay.behavior.tree.NodeStatus;
+import bitdecay.behavior.tree.enums.Time;
 
 /**
  * Runs the child node until the time limit is reached,
@@ -18,7 +18,7 @@ class TimeLimit extends DecoratorNode {
 	var remaining:Float;
 
 	public function new(limit:Time, child:Node) {
-        super(child);
+        super(child, null);
         this.limit = limit;
     }
 

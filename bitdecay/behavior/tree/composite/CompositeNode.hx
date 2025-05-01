@@ -13,9 +13,10 @@ class CompositeNode implements Node {
     var lastStatus:Array<NodeStatus>;
     var ctx:BTContext;
 
-    public function new(order:ChildOrder, children:Array<Node>) {
-        this.children = children;
+    public function new(order:ChildOrder, children:Array<Node>, name:String) {
         type = order;
+        this.children = children;
+        this.name = name;
     }
 
     public function init(ctx:BTContext):Void {

@@ -2,6 +2,7 @@ package bitdecay.behavior.tree.leaf;
 
 import bitdecay.behavior.tree.NodeStatus;
 import bitdecay.behavior.tree.leaf.LeafNode;
+import haxe.Timer;
 
 /**
  * Sets a variable to a given value in the context
@@ -16,11 +17,13 @@ class SetVariable extends LeafNode {
 	}
 
     override public function process(delta:Float):NodeStatus {
-		var v = switch(value) {
+		var v:Dynamic = switch(value) {
 			case CONST(val):
 				val;
 			case FROM_CTX(key):
 				ctx.get(key);
+			case TIMESTAMP(mod):
+				Timer.stamp() + mod;
 		}
 		ctx.set(varName, v);
         return SUCCESS;
@@ -45,4 +48,10 @@ enum ValueType {
 	 * Value is pulled from another `key` in the current context
 	**/
 	FROM_CTX(key:String);
+
+	/**
+	 * Value is set to the current system time + `mod` in seconds. Useful for setting timers,
+	 * delays, or other temporal event triggers
+	**/
+	TIMESTAMP(mod:Float);
 }

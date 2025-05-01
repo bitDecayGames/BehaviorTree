@@ -14,8 +14,9 @@ class DecoratorNode implements Node {
     var previousChildStatus:NodeStatus;
     #end
 
-    public function new(child:Node) {
+    public function new(child:Node, name:String) {
         this.child = child;
+        this.name = name;
     }
 
     public function init(ctx:BTContext) {

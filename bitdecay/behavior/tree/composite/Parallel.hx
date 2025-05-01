@@ -9,8 +9,8 @@ import bitdecay.behavior.tree.context.BTContext;
 class Parallel extends CompositeNode {
     var condition:EndCondition;
 
-    public function new(condition:EndCondition, children:Array<Node>) {
-        super(IN_ORDER, children);
+    public function new(condition:EndCondition, children:Array<Node>, ?name:String = null) {
+        super(IN_ORDER, children, name);
         this.condition = condition;
     }
 
@@ -73,7 +73,7 @@ class Parallel extends CompositeNode {
     }
 
     override public function clone():Node {
-        return new Parallel(condition, [for (node in children) node.clone()]);
+        return new Parallel(condition, [for (node in children) node.clone()], name);
     }
 
     override function getDetail():Array<String> {

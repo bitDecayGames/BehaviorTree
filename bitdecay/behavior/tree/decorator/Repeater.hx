@@ -10,8 +10,8 @@ class Repeater extends DecoratorNode {
     var count:Int;
     var lastStatus:NodeStatus = UNKNOWN;
 
-    public function new(type:RepeatType, child:Node) {
-        super(child);
+    public function new(type:RepeatType, child:Node, name:String = null) {
+        super(child, name);
         this.type = type;
     }
 
@@ -68,7 +68,7 @@ class Repeater extends DecoratorNode {
     }
 
     override public function clone():Node {
-        return new Repeater(type, child.clone());
+        return new Repeater(type, child.clone(), name);
     }
 
     override function getDetail():Array<String> {
