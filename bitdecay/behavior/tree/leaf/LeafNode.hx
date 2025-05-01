@@ -6,6 +6,7 @@ import bitdecay.behavior.tree.context.BTContext;
  * Node intended to be extended to capture the business logic of a given application
 **/
 class LeafNode implements Node {
+    public var name:String;
     var ctx:BTContext;
 
     public function init(ctx:BTContext) {
@@ -28,5 +29,9 @@ class LeafNode implements Node {
 
     function getDetail():Array<String> {
         return [];
+    }
+
+    public function getName():String {
+        return name;
     }
 }

@@ -9,7 +9,7 @@ import bitdecay.behavior.tree.leaf.LeafNode;
  * its node status
 **/
 class StatusAction extends LeafNode {
-    var name:String;
+    var actionName:String;
 	var cb:WrappedProcessFunc;
     var onCancel:WrappedFunc;
 
@@ -17,7 +17,7 @@ class StatusAction extends LeafNode {
      * @param name optional identifier for help if using anonymous functions
     **/
     public function new(name:String = "", cb:WrappedProcessFunc, ?onCancel:WrappedFunc = null) {
-        this.name = name;
+        this.actionName = name;
 		this.cb = cb;
         this.onCancel = onCancel;
 	}
@@ -34,11 +34,11 @@ class StatusAction extends LeafNode {
     }
 
 	override public function clone():Node {
-        return new StatusAction(name, cb, onCancel);
+        return new StatusAction(actionName, cb, onCancel);
     }
 
 	override function getDetail():Array<String> {
-        var detailName = name;
+        var detailName = actionName;
         if (detailName.length == 0) {
             detailName = cb.name;
         }

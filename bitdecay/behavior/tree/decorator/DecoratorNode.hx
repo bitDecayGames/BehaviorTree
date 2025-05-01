@@ -6,6 +6,7 @@ import bitdecay.behavior.tree.context.BTContext;
  * Wraps a child code allowing for logic before/after the child node process is called
 **/
 class DecoratorNode implements Node {
+    public var name:String;
     var child:Node;
     var ctx:BTContext;
 
@@ -74,5 +75,9 @@ class DecoratorNode implements Node {
 
     function getDetail():Array<String> {
         return [];
+    }
+
+    public function getName():String {
+        return name;
     }
 }

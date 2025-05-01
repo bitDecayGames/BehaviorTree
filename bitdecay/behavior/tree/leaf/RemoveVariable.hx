@@ -7,22 +7,22 @@ import bitdecay.behavior.tree.leaf.LeafNode;
  * Removes a variable from the context. Always Succeeds
 **/
 class RemoveVariable extends LeafNode {
-	var name:String;
+	var varName:String;
 
     public function new(name:String) {
-		this.name = name;
+		this.varName = name;
 	}
 
     override public function process(delta:Float):NodeStatus {
-		ctx.remove(name);
+		ctx.remove(varName);
         return SUCCESS;
     }
 
 	override public function clone():Node {
-        return new RemoveVariable(name);
+        return new RemoveVariable(varName);
     }
 
 	override function getDetail():Array<String> {
-        return ['var: ${name}'];
+        return ['var: ${varName}'];
     }
 }

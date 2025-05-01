@@ -36,4 +36,9 @@ interface Node {
      * Used internally to show debug information
     **/
     private function getDetail():Array<String>;
+
+    /**
+     * Used to show custom naming of a node
+    **/
+    public function getName():String;
 }

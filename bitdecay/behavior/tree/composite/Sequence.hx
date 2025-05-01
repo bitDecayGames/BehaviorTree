@@ -21,6 +21,11 @@ class Sequence extends CompositeNode {
         for (i in 0...children.length) {
             index = order[i];
             child = children[index];
+
+            if (lastStatus[index] == UNKNOWN) {
+                child.init(ctx);
+            }
+
             result = child.process(delta);
 
             

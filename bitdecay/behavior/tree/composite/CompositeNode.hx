@@ -6,6 +6,7 @@ import bitdecay.behavior.tree.context.BTContext;
  * A node that has children nodes
 **/
 class CompositeNode implements Node {
+    public var name:String;
     var children:Array<Node>;
     var type:ChildOrder;
     var order:Array<Int>;
@@ -70,6 +71,10 @@ class CompositeNode implements Node {
 
     function getDetail():Array<String> {
         return [];
+    }
+
+    public function getName():String {
+        return name;
     }
 }
 

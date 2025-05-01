@@ -5,11 +5,15 @@ package bitdecay.behavior.tree.context;
  * Returns values from the fallback context if this one cannot provide them.
 **/
 class FallbackContext extends BTContext {
-	var fallback:BTContext;
+	var fallback:BTContext = null;
 
-	public function new(fb:BTContext) {
+	public function new() {
 		super();
-		fallback = fb;
+	}
+
+	public function setContext(parent:BTContext) {
+		fallback = parent;
+		executor = fallback.executor;
 	}
 
 	override function has(key:String):Bool {
@@ -17,7 +21,7 @@ class FallbackContext extends BTContext {
 			return true;
 		}
 
-		return fallback.has(key);
+		return fallback != null && fallback.has(key);
 	}
 
 	override function get(key:String):Dynamic {
@@ -26,7 +30,7 @@ class FallbackContext extends BTContext {
 			return local;
 		}
 
-		return fallback.get(key);
+		return fallback != null ? fallback.get(key) : null;
 	}
 
 	override function getBool(key:String):Bool {
@@ -34,7 +38,7 @@ class FallbackContext extends BTContext {
 			return super.getBool(key);
 		}
 
-		return fallback.getBool(key);
+		return fallback != null ? fallback.getBool(key) : false;
 	}
 
 	override function dump():String {

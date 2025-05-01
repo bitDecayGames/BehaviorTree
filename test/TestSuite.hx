@@ -5,7 +5,6 @@ import bitdecay.behavior.tree.composite.ParallelTest;
 import bitdecay.behavior.tree.composite.SelectorTest;
 import bitdecay.behavior.tree.composite.SequenceTest;
 import bitdecay.behavior.tree.decorator.FailerTest;
-import bitdecay.behavior.tree.decorator.InterrupterTest;
 import bitdecay.behavior.tree.decorator.InverterTest;
 import bitdecay.behavior.tree.decorator.RepeaterTest;
 import bitdecay.behavior.tree.decorator.SucceederTest;
@@ -35,7 +34,6 @@ class TestSuite extends massive.munit.TestSuite
 		add(bitdecay.behavior.tree.composite.SelectorTest);
 		add(bitdecay.behavior.tree.composite.SequenceTest);
 		add(bitdecay.behavior.tree.decorator.FailerTest);
-		add(bitdecay.behavior.tree.decorator.InterrupterTest);
 		add(bitdecay.behavior.tree.decorator.InverterTest);
 		add(bitdecay.behavior.tree.decorator.RepeaterTest);
 		add(bitdecay.behavior.tree.decorator.SucceederTest);

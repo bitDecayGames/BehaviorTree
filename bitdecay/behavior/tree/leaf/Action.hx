@@ -9,7 +9,6 @@ import bitdecay.behavior.tree.leaf.LeafNode;
  * reports SUCCESS
 **/
 class Action extends LeafNode {
-    var name:String;
 	var cb:WrappedFunc;
 
     public function new(name:String = "", cb:WrappedFunc) {

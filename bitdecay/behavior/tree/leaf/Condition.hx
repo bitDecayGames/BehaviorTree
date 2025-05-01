@@ -6,11 +6,11 @@ import bitdecay.behavior.tree.BT.WrappedConditionFunc;
  * A simple node that can only return either SUCCESS or FAIL
 **/
 class Condition extends LeafNode {
-	var name:String;
+	var condName:String;
 	var type:ConditionType;
 
 	public function new(name:String, type:ConditionType) {
-		this.name = name;
+		this.condName = name;
 		this.type = type;	
 	}
 
@@ -123,19 +123,19 @@ class Condition extends LeafNode {
 	}
 
 	override public function clone():Node {
-        return new Condition(name, type);
+        return new Condition(condName, type);
     }
 
 	override function getDetail():Array<String> {
 		switch type {
 			case FUNC(fn):
-				var detailName = name;
+				var detailName = condName;
 				if (detailName.length == 0) {
 					detailName = fn.name;
 				}
 				return ['name: ${detailName}', 'file: ${fn.file}:${fn.line}'];
 			default:
-				return ['name: ${name}', 'type: ${type}'];
+				return ['name: ${condName}', 'type: ${type}'];
 		}
 	}
 }

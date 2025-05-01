@@ -7,11 +7,11 @@ import bitdecay.behavior.tree.leaf.LeafNode;
  * Sets a variable to a given value in the context
 **/
 class SetVariable extends LeafNode {
-	var name:String;
+	var varName:String;
 	var value:ValueType;
 
     public function new(name:String, value:ValueType) {
-		this.name = name;
+		this.varName = name;
 		this.value = value;
 	}
 
@@ -22,16 +22,16 @@ class SetVariable extends LeafNode {
 			case FROM_CTX(key):
 				ctx.get(key);
 		}
-		ctx.set(name, v);
+		ctx.set(varName, v);
         return SUCCESS;
     }
 
 	override public function clone():Node {
-        return new SetVariable(name, value);
+        return new SetVariable(varName, value);
     }
 
 	override function getDetail():Array<String> {
-        return ['var: ${name}, value: ${value}'];
+        return ['var: ${varName}, value: ${value}'];
     }
 }
 

@@ -1,8 +1,6 @@
 package bitdecay.behavior.tree.decorator;
 
 class Subtree extends DecoratorNode {
-	var name:String;
-
 	public function new(name:String) {
 		this.name = name;
 		var subtree = Registry.lookup(name);
@@ -11,6 +9,10 @@ class Subtree extends DecoratorNode {
 		}
 
 		super(subtree);
+	}
+
+	override function process(delta:Float):NodeStatus {
+		return super.process(delta);
 	}
 
 	override function clone():Node {

@@ -12,12 +12,16 @@ import bitdecay.behavior.tree.decorator.DecoratorNode;
  * node.
 **/
 class HierarchicalContext extends DecoratorNode {
-	var subContext:BTContext;
+	var subContext:FallbackContext;
+
+	public function new(child:Node) {
+		super(child);
+		subContext = new FallbackContext();
+	}
 
 	override function init(ctx:BTContext) {
-		 this.ctx = ctx;
-		 subContext = new FallbackContext(ctx);
-		 subContext.executor = ctx.executor;
+		this.ctx = ctx;
+		subContext.setContext(ctx);
         if (child.init != null) {
             child.init(subContext);
         }
