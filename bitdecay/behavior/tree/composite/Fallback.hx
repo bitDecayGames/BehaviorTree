@@ -10,7 +10,7 @@ import bitdecay.behavior.tree.context.BTContext;
  *
  * Logically, this is similar to the OR operation
  **/
-class Selector extends CompositeNode {
+class Fallback extends CompositeNode {
     public function new(type:ChildOrder, children:Array<Node>) {
         super(type, children);
         switch type {
@@ -64,7 +64,7 @@ class Selector extends CompositeNode {
     }
 
     override public function clone():Node {
-        return new Selector(type, [for (node in children) node.clone()]);
+        return new Fallback(type, [for (node in children) node.clone()]);
     }
 
     override function getDetail():Array<String> {

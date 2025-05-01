@@ -3,13 +3,13 @@ package bitdecay.behavior.tree.composite;
 import bitdecay.behavior.tree.context.BTContext;
 import massive.munit.Assert;
 
-class SelectorTest {
+class FallbackTest {
 	@Test
 	public function testInOrderAllFail() {
 		var failOne = TestUtils.getRunningNode(1, FAIL);
 		var failTwo = TestUtils.getRunningNode(1, FAIL);
 		var failThree = TestUtils.getRunningNode(1, FAIL);
-		var node = new Selector(IN_ORDER, [
+		var node = new Fallback(IN_ORDER, [
 			failOne,
 			failTwo,
 			failThree,
@@ -27,7 +27,7 @@ class SelectorTest {
 		var failOne = TestUtils.getRunningNode(1, FAIL);
 		var failTwo = TestUtils.getRunningNode(1, FAIL);
 		var success = TestUtils.getRunningNode(1, SUCCESS);
-		var node = new Selector(IN_ORDER, [
+		var node = new Fallback(IN_ORDER, [
 			failOne,
 			failTwo,
 			success,
@@ -45,7 +45,7 @@ class SelectorTest {
 		var failOne = TestUtils.getRunningNode(1, FAIL);
 		var failTwo = TestUtils.getRunningNode(1, FAIL);
 		var success = TestUtils.getRunningNode(1, SUCCESS);
-		var node = new Selector(IN_ORDER, [
+		var node = new Fallback(IN_ORDER, [
 			success,
 			failOne,
 			failTwo,

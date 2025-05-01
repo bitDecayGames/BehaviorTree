@@ -1,8 +1,8 @@
 import massive.munit.TestSuite;
 
 import bitdecay.behavior.ToolsTest;
+import bitdecay.behavior.tree.composite.FallbackTest;
 import bitdecay.behavior.tree.composite.ParallelTest;
-import bitdecay.behavior.tree.composite.SelectorTest;
 import bitdecay.behavior.tree.composite.SequenceTest;
 import bitdecay.behavior.tree.decorator.FailerTest;
 import bitdecay.behavior.tree.decorator.InverterTest;
@@ -30,8 +30,8 @@ class TestSuite extends massive.munit.TestSuite
 		super();
 
 		add(bitdecay.behavior.ToolsTest);
+		add(bitdecay.behavior.tree.composite.FallbackTest);
 		add(bitdecay.behavior.tree.composite.ParallelTest);
-		add(bitdecay.behavior.tree.composite.SelectorTest);
 		add(bitdecay.behavior.tree.composite.SequenceTest);
 		add(bitdecay.behavior.tree.decorator.FailerTest);
 		add(bitdecay.behavior.tree.decorator.InverterTest);
