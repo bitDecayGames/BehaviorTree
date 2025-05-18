@@ -13,7 +13,7 @@ Behavior trees are composed of Nodes. There are 3 primary kinds of nodes:
 
 This library includes a selection of basic nodes of each type to provide a reasonable amount of flexibility for any project. The most notable are:
 
-* `Selector` - Processes child nodes until one returns SUCCESS
+* `Fallback` - Processes child nodes until one returns SUCCESS
 * `Sequence` - Process child nodes until one returns FAIL
 * `Inverter` - Flips the completion status of the child node
 * `Repeater` - Runs a node multiple times according to the given rule
