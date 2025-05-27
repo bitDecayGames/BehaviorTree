@@ -25,7 +25,7 @@ class CompositeNode implements Node {
         for (c in children) {
             c.init(ctx);
             lastStatus.push(UNKNOWN);
-            #if debug
+            #if (BT_DEBUG || debug)
             @:privateAccess
             ctx.executor.dispatchChange(this, c, UNKNOWN);
             #end
@@ -54,7 +54,7 @@ class CompositeNode implements Node {
                 children[i].cancel();
                 lastStatus[i] = UNKNOWN;
 
-                #if debug
+                #if (BT_DEBUG || debug)
                 @:privateAccess
                 ctx.executor.dispatchChange(this, children[i], FAIL);
                 #end

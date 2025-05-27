@@ -29,7 +29,7 @@ class Sequence extends CompositeNode {
             result = child.process(delta);
 
             
-            #if debug
+            #if (BT_DEBUG || debug)
             if (lastStatus[index] != result) {
                 @:privateAccess
                 ctx.executor.dispatchChange(this, child, result);

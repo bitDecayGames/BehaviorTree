@@ -10,7 +10,7 @@ class DecoratorNode implements Node {
     var child:Node;
     var ctx:BTContext;
 
-    #if debug
+    #if (BT_DEBUG || debug)
     var previousChildStatus:NodeStatus;
     #end
 
@@ -25,7 +25,7 @@ class DecoratorNode implements Node {
             child.init(ctx);
         }
 
-        #if debug
+        #if (BT_DEBUG || debug)
         previousChildStatus = UNKNOWN;
 
 		@:privateAccess
@@ -37,7 +37,7 @@ class DecoratorNode implements Node {
         var rawStatus = child.process(delta);
         var result = doProcess(rawStatus);
 
-        #if debug
+        #if (BT_DEBUG || debug)
         if (previousChildStatus != rawStatus) {
             previousChildStatus = rawStatus;
 
@@ -60,7 +60,7 @@ class DecoratorNode implements Node {
 
     public function cancel():Void {
         child.cancel();
-        #if debug
+        #if (BT_DEBUG || debug)
         @:privateAccess
         ctx.executor.dispatchChange(this, child, UNKNOWN);
         #end

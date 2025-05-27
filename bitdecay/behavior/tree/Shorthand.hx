@@ -1,6 +1,5 @@
 package bitdecay.behavior.tree;
 
-import bitdecay.behavior.tree.composite.Fallback;
 import bitdecay.behavior.tree.composite.Sequence;
 import bitdecay.behavior.tree.decorator.Inverter;
 import bitdecay.behavior.tree.leaf.Condition;
@@ -14,7 +13,7 @@ class Shorthand {
 	 * @param condition The condition to cause the interrupt when true
 	 * @param child     The node to run while interrupt
 	**/
-	public static function interrupter(condition:Condition, child:Node, ?name:String = null) {
+	public static function interrupter(condition:Condition, child:Node, ?name:String = null):Node {
 		var formatted = '${name == null ? "" : name}${name == null ? "" : "("}interrupter${name == null ? "" : ")"}';
 		var node = new Sequence(IN_ORDER, [
 			new Inverter(condition, formatted),

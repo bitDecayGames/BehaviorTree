@@ -19,7 +19,7 @@ class Parallel extends CompositeNode {
         for (i in 0...children.length) {
             status = children[i].process(delta);
 
-            #if debug
+            #if (BT_DEBUG || debug)
             if (lastStatus[i] != status) {
                 @:privateAccess
                 ctx.executor.dispatchChange(this, children[i], status);

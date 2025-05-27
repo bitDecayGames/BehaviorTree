@@ -4,7 +4,7 @@ class BTContext {
     public var executor:BTExecutor;
     private var contents:Map<String, Dynamic>;
 
-    #if debug
+    #if (BT_DEBUG || debug)
     public var dirty:Bool = false;
     #end
 
@@ -65,7 +65,7 @@ class BTContext {
      * Sets a key/value pair into the context
     **/
     public function set(key:String, value:Dynamic) {
-        #if debug
+        #if (BT_DEBUG || debug)
         dirty = true;
         #end
 
@@ -76,7 +76,7 @@ class BTContext {
      * Attempts to remove `key` from the context and returns true if `key` was removed, false otherwise
     **/
     public function remove(key:String):Bool {
-        #if debug
+        #if (BT_DEBUG || debug)
         dirty = true;
         #end
         

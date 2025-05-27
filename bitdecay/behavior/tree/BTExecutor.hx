@@ -15,7 +15,7 @@ class BTExecutor {
     var persistentProcessNodes:Array<Node> = [];
 
 
-    #if debug
+    #if (BT_DEBUG || debug)
     private var preProcessListeners:Array<()->Void> = [];
     private var nodeStatusListeners:Array<(Node, Node, NodeStatus) ->Void> = [];
     private var postProcessListeners:Array<()->Void> = [];
@@ -60,7 +60,7 @@ class BTExecutor {
     }
 
     public function process(delta:Float):NodeStatus {
-        #if debug
+        #if (BT_DEBUG || debug)
         var previousStatus = status;
         for (fn in preProcessListeners) {
             fn();
@@ -69,7 +69,7 @@ class BTExecutor {
 
         var result = root.process(delta);
 
-        #if debug
+        #if (BT_DEBUG || debug)
         if (previousStatus != result) {
             @:privateAccess
             ctx.executor.dispatchChange(null, root, result);
